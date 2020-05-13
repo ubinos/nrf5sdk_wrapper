@@ -159,7 +159,7 @@ if(NRF5SDK__CRYPTO_ENABLED)
 
     if(NRF5SDK__CRYPTO_MBEDTLS_ENABLED)
 
-set_cache_default(NRF5SDK__MBEDTLS_CONFIG_DIR "${CMAKE_CURRENT_LIST_DIR}/../source/nRF5_SDK/external/nrf_tls/mbedtls/tls/config" STRING "")
+set_cache_default(NRF5SDK__MBEDTLS_CONFIG_DIR "${NRF5SDK__BASE_DIR}/external/nrf_tls/mbedtls/tls/config" STRING "")
 set_cache_default(NRF5SDK__MBEDTLS_CONFIG_FILE "\\\\\"nrf_tls_config.h\\\\\"" STRING "")
 
 set_cache_default(NRF5SDK__NRF_TLS_MAX_INSTANCE_COUNT 1 STRING "")
@@ -168,13 +168,13 @@ set_cache_default(NRF5SDK__NRF_TLS_MAX_INSTANCE_COUNT 1 STRING "")
 
     else()
     
-set_cache_default(NRF5SDK__MBEDTLS_CONFIG_DIR "${CMAKE_CURRENT_LIST_DIR}/../source/nRF5_SDK/external/nrf_tls/mbedtls/nrf_crypto/config" STRING "")
+set_cache_default(NRF5SDK__MBEDTLS_CONFIG_DIR "${NRF5SDK__BASE_DIR}/external/nrf_tls/mbedtls/nrf_crypto/config" STRING "")
 set_cache_default(NRF5SDK__MBEDTLS_CONFIG_FILE "\\\\\"nrf_crypto_mbedtls_config.h\\\\\"" STRING "")
 
 set_cache_default(NRF5SDK__NRF_CRYPTO_MAX_INSTANCE_COUNT 1 STRING "")
 
-set_cache_default(NRF5SDK__LIB_FILE_CC310 "${CMAKE_CURRENT_LIST_DIR}/../source/nRF5_SDK/external/nrf_cc310/lib/cortex-m4/hard-float/libnrf_cc310_0.9.12.a" STRING "")
-set_cache_default(NRF5SDK__LIB_FILE_OBERON "${CMAKE_CURRENT_LIST_DIR}/../source/nRF5_SDK/external/nrf_oberon/lib/cortex-m4/hard-float/liboberon_2.0.7.a" STRING "")
+set_cache_default(NRF5SDK__LIB_FILE_CC310 "${NRF5SDK__BASE_DIR}/external/nrf_cc310/lib/cortex-m4/hard-float/libnrf_cc310_0.9.12.a" STRING "")
+set_cache_default(NRF5SDK__LIB_FILE_OBERON "${NRF5SDK__BASE_DIR}/external/nrf_oberon/lib/cortex-m4/hard-float/liboberon_2.0.7.a" STRING "")
 
 	    set(_tmp_all_flags "${_tmp_all_flags} -DNRF_CRYPTO_MAX_INSTANCE_COUNT=${NRF5SDK__NRF_CRYPTO_MAX_INSTANCE_COUNT}")
 	

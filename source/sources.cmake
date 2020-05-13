@@ -501,14 +501,9 @@ if(INCLUDE__NRF5SDK)
 
         include_directories(${_tmp_source_dir}/components/softdevice/common)
     
-        if(UBINOS__BSP__NRF52_SOFTDEVICE_NAME STREQUAL "S132")
-            include_directories(${_tmp_source_dir}/components/softdevice/s132/headers)
-            include_directories(${_tmp_source_dir}/components/softdevice/s132/headers/nrf52)
-        elseif(UBINOS__BSP__NRF52_SOFTDEVICE_NAME STREQUAL "S140")
-            include_directories(${_tmp_source_dir}/components/softdevice/s140/headers)
-            include_directories(${_tmp_source_dir}/components/softdevice/s140/headers/nrf52)
-        else()
-            message(FATAL_ERROR "Unsupported UBINOS__BSP__NRF52_SOFTDEVICE_NAME")
+        if(NOT ${UBINOS__BSP__NRF52_SOFTDEVICE_INCLUDE_DIR} STREQUAL "")
+            include_directories(${UBINOS__BSP__NRF52_SOFTDEVICE_INCLUDE_DIR})
+            include_directories(${UBINOS__BSP__NRF52_SOFTDEVICE_INCLUDE_DIR}/nrf52)
         endif()
     
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bsp/bsp_btn_ble.c)

@@ -8,6 +8,7 @@ project(nrf5sdk_wrapper)
 
 project_begin()
 project_add_library(ubinos)
+project_add_library(seggerrtt_wrapper)
 project_end()
 
 ###############################################################################
