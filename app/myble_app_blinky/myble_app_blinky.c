@@ -31,6 +31,8 @@
 #include "nrf_log_ctrl.h"
 #include "nrf_log_default_backends.h"
 
+#define USE_LED 1
+
 #if (!defined(ENABLE_TRACE) || defined(USE_ALT_TRACE_PIN))
 #define ADVERTISING_LED                 BSP_BOARD_LED_0                         /**< Is on when device is advertising. */
 #define CONNECTED_LED                   BSP_BOARD_LED_1                         /**< Is on when device has connected. */
@@ -115,6 +117,17 @@ static void leds_init(void)
     bsp_board_init(BSP_INIT_LEDS);
 }
 
+static void led_on(uint32_t led_idx) {
+#if (USE_LED == 1)
+	bsp_board_led_on(led_idx);
+#endif /* (USE_LED == 1) */
+}
+
+static void led_off(uint32_t led_idx) {
+#if (USE_LED == 1)
+	bsp_board_led_off(led_idx);
+#endif /* (USE_LED == 1) */
+}
 
 /**@brief Function for the Timer initialization.
  *
@@ -237,12 +250,12 @@ static void led_write_handler(uint16_t conn_handle, ble_lbs_t * p_lbs, uint8_t l
 {
     if (led_state)
     {
-        bsp_board_led_on(LEDBUTTON_LED);
+        led_on(LEDBUTTON_LED);
         NRF_LOG_INFO("Received LED ON!");
     }
     else
     {
-        bsp_board_led_off(LEDBUTTON_LED);
+        led_off(LEDBUTTON_LED);
         NRF_LOG_INFO("Received LED OFF!");
     }
 }
@@ -336,7 +349,7 @@ static void advertising_start(void)
     APP_ERROR_CHECK(err_code);
 
 #if (!defined(ENABLE_TRACE) || defined(USE_ALT_TRACE_PIN))
-    bsp_board_led_on(ADVERTISING_LED);
+    led_on(ADVERTISING_LED);
 #endif /* (!defined(ENABLE_TRACE) || defined(USE_ALT_TRACE_PIN)) */
 }
 
@@ -355,8 +368,8 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
         case BLE_GAP_EVT_CONNECTED:
             NRF_LOG_INFO("Connected");
 #if (!defined(ENABLE_TRACE) || defined(USE_ALT_TRACE_PIN))
-            bsp_board_led_on(CONNECTED_LED);
-            bsp_board_led_off(ADVERTISING_LED);
+            led_on(CONNECTED_LED);
+            led_off(ADVERTISING_LED);
 #endif /* (!defined(ENABLE_TRACE) || defined(USE_ALT_TRACE_PIN)) */
             m_conn_handle = p_ble_evt->evt.gap_evt.conn_handle;
             err_code = nrf_ble_qwr_conn_handle_assign(&m_qwr, m_conn_handle);
@@ -368,7 +381,7 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
         case BLE_GAP_EVT_DISCONNECTED:
             NRF_LOG_INFO("Disconnected");
 #if (!defined(ENABLE_TRACE) || defined(USE_ALT_TRACE_PIN))
-            bsp_board_led_off(CONNECTED_LED);
+            led_off(CONNECTED_LED);
 #endif /* (!defined(ENABLE_TRACE) || defined(USE_ALT_TRACE_PIN)) */
             m_conn_handle = BLE_CONN_HANDLE_INVALID;
             err_code = app_button_disable();
