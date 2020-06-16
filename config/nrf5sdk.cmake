@@ -1,3 +1,9 @@
+#
+# Copyright (c) 2019 Sung Ho Park and CSOS
+# 
+# SPDX-License-Identifier: Apache-2.0
+#
+
 set(INCLUDE__NRF5SDK TRUE)
 
 set_cache_default(NRF5SDK__BASE_DIR "${PROJECT_LIBRARY_DIR}/nrf5sdk_v15.03.00" STRING "nrf5sdk project base dir")
