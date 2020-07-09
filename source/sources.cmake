@@ -67,7 +67,6 @@ if(INCLUDE__NRF5SDK)
     include_directories(${_tmp_source_dir}/components/libraries/strerror)
     include_directories(${_tmp_source_dir}/components/libraries/svc)
     include_directories(${_tmp_source_dir}/components/libraries/timer)
-    include_directories(${_tmp_source_dir}/components/libraries/timer/experimental)
     include_directories(${_tmp_source_dir}/components/libraries/twi_mngr)
     include_directories(${_tmp_source_dir}/components/libraries/twi_sensor)
     include_directories(${_tmp_source_dir}/components/libraries/uart)
@@ -190,10 +189,13 @@ if(INCLUDE__NRF5SDK)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/fprintf/nrf_fprintf_format.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/utf_converter/utf.c)
 
-    set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/integration/nrfx/legacy/nrf_drv_clock.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/integration/nrfx/legacy/nrf_drv_power.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/integration/nrfx/legacy/nrf_drv_rng.c)
-
+    
+if(NRF5SDK__NRFX_CLOCK_ENABLED OR NRF5SDK__NRFX_POWER_ENABLED)
+    set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/integration/nrfx/legacy/nrf_drv_clock.c)
+endif()
+    
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/drivers/src/nrfx_clock.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/drivers/src/nrfx_gpiote.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/drivers/src/nrfx_systick.c)
@@ -253,11 +255,11 @@ if(INCLUDE__NRF5SDK)
 
     if(NRF5SDK__APP_TIMER_V2)
     
-        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/timer/experimental/app_timer2.c)
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/timer/app_timer2.c)
 
         if(NRF5SDK__APP_TIMER_V2_RTC1_ENABLED)
         
-            set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/timer/experimental/drv_rtc.c)
+            set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/timer/drv_rtc.c)
         
         endif(NRF5SDK__APP_TIMER_V2_RTC1_ENABLED)
     
@@ -270,7 +272,6 @@ if(INCLUDE__NRF5SDK)
 			include_directories(${_tmp_source_dir}/external/mbedtls/include)
 	        include_directories(${_tmp_source_dir}/external/nrf_tls) 
 
-			set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/mbedtls/library/aes.c)
 			set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/mbedtls/library/aesni.c)
 			set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/mbedtls/library/arc4.c)
 			set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/mbedtls/library/asn1parse.c)
@@ -283,7 +284,6 @@ if(INCLUDE__NRF5SDK)
 			set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/mbedtls/library/cipher.c)
 			set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/mbedtls/library/cipher_wrap.c)
 			set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/mbedtls/library/cmac.c)
-			set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/mbedtls/library/ctr_drbg.c)
 			set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/mbedtls/library/debug.c)
 			set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/mbedtls/library/des.c)
 			set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/mbedtls/library/dhm.c)
@@ -405,6 +405,7 @@ if(INCLUDE__NRF5SDK)
 
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/mbedtls/library/aes.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/mbedtls/library/ctr_drbg.c)
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/mbedtls/library/platform_util.c) 
 
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/crypto/backend/nrf_hw/nrf_hw_backend_init.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/crypto/backend/nrf_hw/nrf_hw_backend_rng.c)
@@ -475,6 +476,7 @@ if(INCLUDE__NRF5SDK)
         include_directories(${_tmp_source_dir}/components/ble/common)
         include_directories(${_tmp_source_dir}/components/ble/nrf_ble_scan)
         include_directories(${_tmp_source_dir}/components/ble/nrf_ble_gatt)
+        include_directories(${_tmp_source_dir}/components/ble/nrf_ble_gq)
         include_directories(${_tmp_source_dir}/components/ble/nrf_ble_qwr)
         include_directories(${_tmp_source_dir}/components/ble/peer_manager)
     
@@ -533,6 +535,7 @@ if(INCLUDE__NRF5SDK)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/common/ble_srv_common.c)
         
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/nrf_ble_gatt/nrf_ble_gatt.c)
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/nrf_ble_gq/nrf_ble_gq.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/nrf_ble_qwr/nrf_ble_qwr.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/nrf_ble_scan/nrf_ble_scan.c)
 

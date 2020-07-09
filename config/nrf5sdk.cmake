@@ -6,7 +6,7 @@
 
 set(INCLUDE__NRF5SDK TRUE)
 
-set_cache_default(NRF5SDK__BASE_DIR "${PROJECT_LIBRARY_DIR}/nrf5sdk_v15.03.00" STRING "nrf5sdk project base dir")
+set_cache_default(NRF5SDK__BASE_DIR "${PROJECT_LIBRARY_DIR}/nrf5sdk_v17.00.00" STRING "nrf5sdk project base dir")
 
 if(UBINOS__BSP__BOARD_MODEL STREQUAL "NRF52DK")
     set_cache(NRF5SDK__BOARD_NAME "PCA10040" STRING)
@@ -48,6 +48,8 @@ set_cache_default(NRF5SDK__BLE_STACK_SUPPORT_REQD                               
 set_cache_default(NRF5SDK__LWIP_DONT_PROVIDE_BYTEORDER_FUNCTIONS                FALSE   BOOL "")
 set_cache_default(NRF5SDK__SDK_MUTEX_ENABLE                                     FALSE   BOOL "")
 
+set_cache_default(NRF5SDK__NRFX_CLOCK_ENABLED                                   TRUE    BOOL "")
+set_cache_default(NRF5SDK__NRFX_POWER_ENABLED                                   TRUE    BOOL "")
 
 if(NRF5SDK__IOT_ENABLED)
 
@@ -155,6 +157,18 @@ else()
     set(_tmp_all_flags "${_tmp_all_flags} -DUSBD_ENABLED=0 -DAPP_USBD_ENABLED=0")
 endif()
 
+if(NRF5SDK__NRFX_CLOCK_ENABLED)
+    add_definitions("-DNRFX_CLOCK_ENABLED=1")
+else()
+    add_definitions("-DNRFX_CLOCK_ENABLED=0")
+endif()
+
+if(NRF5SDK__NRFX_POWER_ENABLED)
+    add_definitions("-DNRFX_POWER_ENABLED=1")
+else()
+    add_definitions("-DNRFX_POWER_ENABLED=0")
+endif()
+
 if(NRF5SDK__IOT_ENABLED)
     set(_tmp_all_flags "${_tmp_all_flags} -DBLE_IPSP_RX_BUFFER_COUNT=${NRF5SDK__BLE_IPSP_RX_BUFFER_COUNT}")
 endif()
@@ -181,8 +195,8 @@ set_cache_default(NRF5SDK__MBEDTLS_CONFIG_FILE "\\\\\"nrf_crypto_mbedtls_config.
 
 set_cache_default(NRF5SDK__NRF_CRYPTO_MAX_INSTANCE_COUNT 1 STRING "")
 
-set_cache_default(NRF5SDK__LIB_FILE_CC310 "${NRF5SDK__BASE_DIR}/external/nrf_cc310/lib/cortex-m4/hard-float/libnrf_cc310_0.9.12.a" STRING "")
-set_cache_default(NRF5SDK__LIB_FILE_OBERON "${NRF5SDK__BASE_DIR}/external/nrf_oberon/lib/cortex-m4/hard-float/liboberon_2.0.7.a" STRING "")
+set_cache_default(NRF5SDK__LIB_FILE_CC310 "${NRF5SDK__BASE_DIR}/external/nrf_cc310/lib/cortex-m4/hard-float/libnrf_cc310_0.9.13.a" STRING "")
+set_cache_default(NRF5SDK__LIB_FILE_OBERON "${NRF5SDK__BASE_DIR}/external/nrf_oberon/lib/cortex-m4/hard-float/liboberon_3.0.5.a" STRING "")
 
 	    set(_tmp_all_flags "${_tmp_all_flags} -DNRF_CRYPTO_MAX_INSTANCE_COUNT=${NRF5SDK__NRF_CRYPTO_MAX_INSTANCE_COUNT}")
 	

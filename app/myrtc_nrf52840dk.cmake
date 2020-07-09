@@ -1,4 +1,5 @@
 set_cache(NRF5SDK__BSP_DEFINES_ONLY TRUE BOOL)
+set_cache(NRF5SDK__NRFX_POWER_ENABLED FALSE BOOL)
 
 include(${PROJECT_UBINOS_DIR}/config/ubinos_nrf52840dk.cmake)
 
