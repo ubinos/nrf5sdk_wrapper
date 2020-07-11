@@ -72,7 +72,6 @@
 #include "app_timer.h"
 #include "app_error.h"
 #include "nrf_cli.h"
-#include "nrf_pwr_mgmt.h"
 #include "nrf_ble_scan.h"
 
 #include "nrf_log.h"
@@ -967,16 +966,6 @@ static void gatt_init(void)
 }
 
 
-/**@brief Function for initializing power management.
- */
-static void power_management_init(void)
-{
-    ret_code_t ret;
-    ret = nrf_pwr_mgmt_init();
-    APP_ERROR_CHECK(ret);
-}
-
-
 void preferred_phy_set(ble_gap_phys_t * p_phy)
 {
     memcpy(&m_test_params.phys, p_phy, sizeof(ble_gap_phys_t));
@@ -1120,7 +1109,6 @@ void cli_process(void)
 }
 
 
-#if (UBINOS__UBIK__TICK_RTC_SLEEP_WHEN_IDLE == 1)
 int idletaskhookfunc(void * arg) {
 	for (;;) {
 	    cli_process();
@@ -1140,28 +1128,6 @@ int idletaskhookfunc(void * arg) {
 
 	return 0;
 }
-#else
-/**@brief Function for handling the idle state (main loop).
- *
- * @details Handles any pending operations, then sleeps until the next event occurs.
- */
-static void idle_state_handle(void)
-{
-    cli_process();
-
-    if (is_test_ready())
-    {
-        NRF_LOG_INFO("Test started");
-        m_run_test = true;
-        test_run();
-    }
-
-    if (NRF_LOG_PROCESS() == false)
-    {
-    	nrf_pwr_mgmt_run();
-    }
-}
-#endif /* (UBINOS__UBIK__TICK_RTC_SLEEP_WHEN_IDLE == 1) */
 
 
 static void test_terminate(void)
@@ -1266,7 +1232,6 @@ int appmain(int argc, char *argv[]) {
     leds_init();
     timer_init();
     buttons_init();
-    power_management_init();
     ble_stack_init();
     gap_params_init();
     gatt_init();
@@ -1315,16 +1280,8 @@ static void taskfunc(void *arg) {
 		logme("fail at task_create\r\n");
 	}
 
-#if (UBINOS__UBIK__TICK_RTC_SLEEP_WHEN_IDLE == 1)
 	r = ubik_setidletaskhookfunc(&idletaskhookfunc, 0, "idle_state_handle", IDLEHOOKFUNC_OPT__REPEAT);
 	assert(r == 0);
-#else
-    // Enter main loop.
-    for (;;)
-    {
-        idle_state_handle();
-    }
-#endif /* (UBINOS__UBIK__TICK_RTC_SLEEP_WHEN_IDLE == 1) */
 }
 
 static void task1func(void *arg) {
