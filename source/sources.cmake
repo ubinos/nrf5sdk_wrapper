@@ -164,6 +164,54 @@ if(INCLUDE__NRF5SDK)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/util/app_error_weak.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/util/app_util_platform.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/util/nrf_assert.c)
+
+    if(NRF5SDK__ENABLE_BOOTLOADER)
+        
+        include_directories(${_tmp_source_dir}/components/libraries/bootloader)
+        include_directories(${_tmp_source_dir}/components/libraries/bootloader/dfu)
+        include_directories(${_tmp_source_dir}/components/libraries/bootloader/serial_dfu)
+        include_directories(${_tmp_source_dir}/external/nano-pb)
+        
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/dfu/dfu-cc.pb.c)
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/dfu/nrf_dfu.c)
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/dfu/nrf_dfu_flash.c)
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/dfu/nrf_dfu_handling_error.c)
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/dfu/nrf_dfu_mbr.c)
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/dfu/nrf_dfu_req_handler.c)
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/dfu/nrf_dfu_settings.c)
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/dfu/nrf_dfu_transport.c)
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/dfu/nrf_dfu_utils.c)
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/dfu/nrf_dfu_validation.c)
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/dfu/nrf_dfu_ver_validation.c)
+        
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/nrf_bootloader.c)
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/nrf_bootloader_app_start.c)
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/nrf_bootloader_app_start_final.c)
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/nrf_bootloader_dfu_timers.c)
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/nrf_bootloader_fw_activation.c)
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/nrf_bootloader_info.c)
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/nrf_bootloader_wdt.c)
+        
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/serial_dfu/nrf_dfu_serial.c)
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/serial_dfu/nrf_dfu_serial_usb.c)
+        
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/led_softblink/led_softblink.c)
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/low_power_pwm/low_power_pwm.c)
+        
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/crypto/backend/cc310_bl/cc310_bl_backend_ecc.c)
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/crypto/backend/cc310_bl/cc310_bl_backend_ecdsa.c)
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/crypto/backend/cc310_bl/cc310_bl_backend_hash.c)
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/crypto/backend/cc310_bl/cc310_bl_backend_init.c)
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/crypto/backend/cc310_bl/cc310_bl_backend_shared.c)
+        
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/slip/slip.c)
+        
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/nano-pb/pb_common.c)
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/nano-pb/pb_decode.c)
+        
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/examples/dfu/dfu_public_key.c)
+        
+    endif(NRF5SDK__ENABLE_BOOTLOADER)
     
     if(NRF5SDK__USBD_ENABLED)
 
@@ -192,9 +240,9 @@ if(INCLUDE__NRF5SDK)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/integration/nrfx/legacy/nrf_drv_power.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/integration/nrfx/legacy/nrf_drv_rng.c)
     
-if(NRF5SDK__NRFX_CLOCK_ENABLED OR NRF5SDK__NRFX_POWER_ENABLED)
-    set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/integration/nrfx/legacy/nrf_drv_clock.c)
-endif()
+    if(NRF5SDK__NRFX_CLOCK_ENABLED OR NRF5SDK__NRFX_POWER_ENABLED)
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/integration/nrfx/legacy/nrf_drv_clock.c)
+    endif()
     
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/drivers/src/nrfx_clock.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/drivers/src/nrfx_gpiote.c)
@@ -249,22 +297,24 @@ endif()
 
     else()
 
-        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/timer/app_timer.c)
-
+        if(NRF5SDK__APP_TIMER_V2)
+        
+            set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/timer/app_timer2.c)
+    
+            if(NRF5SDK__APP_TIMER_V2_RTC1_ENABLED)
+            
+                set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/timer/drv_rtc.c)
+            
+            endif(NRF5SDK__APP_TIMER_V2_RTC1_ENABLED)
+        
+        else()
+        
+            set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/timer/app_timer.c)
+            
+        endif(NRF5SDK__APP_TIMER_V2)
+    
     endif(NRF5SDK__FREERTOS)
 
-    if(NRF5SDK__APP_TIMER_V2)
-    
-        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/timer/app_timer2.c)
-
-        if(NRF5SDK__APP_TIMER_V2_RTC1_ENABLED)
-        
-            set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/timer/drv_rtc.c)
-        
-        endif(NRF5SDK__APP_TIMER_V2_RTC1_ENABLED)
-    
-    endif(NRF5SDK__APP_TIMER_V2)
-    
     if(NRF5SDK__CRYPTO_ENABLED)
 
         if(NRF5SDK__CRYPTO_MBEDTLS_ENABLED)
@@ -402,6 +452,9 @@ endif()
         include_directories(${_tmp_source_dir}/components/libraries/crypto/backend/mbedtls)
 
         include_directories(${_tmp_source_dir}/external/mbedtls/include) 
+        include_directories(${NRF5SDK__MBEDTLS_CONFIG_DIR})
+
+        include_directories(${NRF5SDK__LIB_INCLUDE_CC310})
 
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/mbedtls/library/aes.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/mbedtls/library/ctr_drbg.c)
@@ -410,6 +463,7 @@ endif()
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/crypto/backend/nrf_hw/nrf_hw_backend_init.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/crypto/backend/nrf_hw/nrf_hw_backend_rng.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/crypto/backend/nrf_hw/nrf_hw_backend_rng_mbedtls.c)
+
 
     endif(NRF5SDK__CRYPTO_ENABLED)
 
@@ -677,6 +731,9 @@ endif()
         endif(NRF5SDK__FREERTOS)
 
     else()
+        if(UBINOS__BSP__NRF52_MBR_PRESENT AND (NOT ${UBINOS__BSP__NRF52_SOFTDEVICE_INCLUDE_DIR} STREQUAL ""))
+            include_directories(${UBINOS__BSP__NRF52_SOFTDEVICE_INCLUDE_DIR})
+        endif()
     
         include_directories(${_tmp_source_dir}/components/drivers_nrf/nrf_soc_nosd)
     

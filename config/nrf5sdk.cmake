@@ -51,6 +51,13 @@ set_cache_default(NRF5SDK__SDK_MUTEX_ENABLE                                     
 set_cache_default(NRF5SDK__NRFX_CLOCK_ENABLED                                   TRUE    BOOL "")
 set_cache_default(NRF5SDK__NRFX_POWER_ENABLED                                   TRUE    BOOL "")
 
+set_cache_default(NRF5SDK__ENABLE_BOOTLOADER FALSE BOOL "")
+
+set_cache_default(NRF5SDK__SVC_INTERFACE_CALL_AS_NORMAL_FUNCTION FALSE BOOL "")
+
+set_cache_default(NRF5SDK__NRF_DFU_DEBUG_VERSION FALSE BOOL "")
+set_cache_default(NRF5SDK__NRF_DFU_SETTINGS_VERSION 2 STRING "")
+
 if(NRF5SDK__IOT_ENABLED)
 
 set_cache_default(NRF5SDK__BLE_IPSP_RX_BUFFER_COUNT 2 STRING "")
@@ -169,6 +176,15 @@ else()
     add_definitions("-DNRFX_POWER_ENABLED=0")
 endif()
 
+if(NRF5SDK__SVC_INTERFACE_CALL_AS_NORMAL_FUNCTION)
+    add_definitions("-DSVC_INTERFACE_CALL_AS_NORMAL_FUNCTION")
+endif()
+
+if(NRF5SDK__NRF_DFU_DEBUG_VERSION)
+    add_definitions("-DNRF_DFU_DEBUG_VERSION")
+    add_definitions("-DNRF_DFU_SETTINGS_VERSION=${NRF5SDK__NRF_DFU_SETTINGS_VERSION}")
+endif()
+
 if(NRF5SDK__IOT_ENABLED)
     set(_tmp_all_flags "${_tmp_all_flags} -DBLE_IPSP_RX_BUFFER_COUNT=${NRF5SDK__BLE_IPSP_RX_BUFFER_COUNT}")
 endif()
@@ -195,7 +211,14 @@ set_cache_default(NRF5SDK__MBEDTLS_CONFIG_FILE "\\\\\"nrf_crypto_mbedtls_config.
 
 set_cache_default(NRF5SDK__NRF_CRYPTO_MAX_INSTANCE_COUNT 1 STRING "")
 
-set_cache_default(NRF5SDK__LIB_FILE_CC310 "${NRF5SDK__BASE_DIR}/external/nrf_cc310/lib/cortex-m4/hard-float/libnrf_cc310_0.9.13.a" STRING "")
+        if(NRF5SDK__ENABLE_BOOTLOADER)
+            set_cache_default(NRF5SDK__LIB_FILE_CC310 "${NRF5SDK__BASE_DIR}/external/nrf_cc310_bl/lib/cortex-m4/hard-float/libnrf_cc310_bl_0.9.13.a" STRING "")
+            set_cache_default(NRF5SDK__LIB_INCLUDE_CC310 "${NRF5SDK__BASE_DIR}/external/nrf_cc310_bl/include" STRING "")
+        else()
+            set_cache_default(NRF5SDK__LIB_FILE_CC310 "${NRF5SDK__BASE_DIR}/external/nrf_cc310/lib/cortex-m4/hard-float/libnrf_cc310_0.9.13.a" STRING "")
+            set_cache_default(NRF5SDK__LIB_INCLUDE_CC310 "${NRF5SDK__BASE_DIR}/external/nrf_cc310/include" STRING "")
+        endif(NRF5SDK__ENABLE_BOOTLOADER)
+
 set_cache_default(NRF5SDK__LIB_FILE_OBERON "${NRF5SDK__BASE_DIR}/external/nrf_oberon/lib/cortex-m4/hard-float/liboberon_3.0.5.a" STRING "")
 
 	    set(_tmp_all_flags "${_tmp_all_flags} -DNRF_CRYPTO_MAX_INSTANCE_COUNT=${NRF5SDK__NRF_CRYPTO_MAX_INSTANCE_COUNT}")
@@ -207,8 +230,6 @@ set_cache_default(NRF5SDK__LIB_FILE_OBERON "${NRF5SDK__BASE_DIR}/external/nrf_ob
 		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -u cc310_bl_backend")
 		
 	endif(NRF5SDK__CRYPTO_MBEDTLS_ENABLED)
-
-	include_directories(${NRF5SDK__MBEDTLS_CONFIG_DIR})
 
 	set(_tmp_all_flags "${_tmp_all_flags} -DNRF_CRYPTO_ENABLED=1")
 	set(_tmp_all_flags "${_tmp_all_flags} -DMBEDTLS_CONFIG_FILE=${NRF5SDK__MBEDTLS_CONFIG_FILE}")
