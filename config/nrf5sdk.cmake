@@ -48,6 +48,9 @@ set_cache_default(NRF5SDK__BLE_STACK_SUPPORT_REQD                               
 set_cache_default(NRF5SDK__LWIP_DONT_PROVIDE_BYTEORDER_FUNCTIONS                FALSE   BOOL "")
 set_cache_default(NRF5SDK__SDK_MUTEX_ENABLE                                     FALSE   BOOL "")
 
+set_cache_default(NRF5SDK__NRF_LIBUARTE_DRV_UARTE0_ENABLED                      FALSE   BOOL "")
+set_cache_default(NRF5SDK__NRF_LIBUARTE_DRV_UARTE1_ENABLED                      FALSE   BOOL "")
+
 set_cache_default(NRF5SDK__NRFX_CLOCK_ENABLED                                   TRUE    BOOL "")
 set_cache_default(NRF5SDK__NRFX_POWER_ENABLED                                   TRUE    BOOL "")
 
@@ -162,6 +165,18 @@ if(NRF5SDK__USBD_ENABLED)
     set(_tmp_all_flags "${_tmp_all_flags} -DUSBD_ENABLED=1")
 else()
     set(_tmp_all_flags "${_tmp_all_flags} -DUSBD_ENABLED=0 -DAPP_USBD_ENABLED=0")
+endif()
+
+if(NRF5SDK__NRF_LIBUARTE_DRV_UARTE0_ENABLED)
+    add_definitions("-DNRF_LIBUARTE_DRV_UARTE0_ENABLED=1")
+else()
+    add_definitions("-DNRF_LIBUARTE_DRV_UARTE0_ENABLED=0")
+endif()
+
+if(NRF5SDK__NRF_LIBUARTE_DRV_UARTE1_ENABLED)
+    add_definitions("-DNRF_LIBUARTE_DRV_UARTE1_ENABLED=1")
+else()
+    add_definitions("-DNRF_LIBUARTE_DRV_UARTE1_ENABLED=0")
 endif()
 
 if(NRF5SDK__NRFX_CLOCK_ENABLED)
