@@ -533,7 +533,7 @@ int appmain(int argc, char *argv[]) {
 
 	r = task_create(NULL, taskfunc, NULL, task_getmiddlepriority(), 0, "task0");
 	if (0 != r) {
-		logme("fail at task_create\r\n");
+		logme("fail at task_create");
 	}
 
 	ubik_comp_start();
@@ -555,12 +555,12 @@ static void taskfunc(void *arg) {
 
 	r = task_create(NULL, task1func, NULL, task_getmiddlepriority(), 0, "task1");
 	if (0 != r) {
-		logme("fail at task_create\r\n");
+		logme("fail at task_create");
 	}
 
 	r = task_create(NULL, task2func, NULL, task_getmiddlepriority(), 0, "task2");
 	if (0 != r) {
-		logme("fail at task_create\r\n");
+		logme("fail at task_create");
 	}
 
 	r = ubik_setidletaskhookfunc(&idletaskhookfunc, 0, "idle_state_handle", IDLEHOOKFUNC_OPT__REPEAT);
