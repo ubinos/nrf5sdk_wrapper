@@ -483,7 +483,7 @@ static void task1func(void *arg) {
 
 	for (unsigned int i = 0;; i++) {
 		delayms = (rand() % 10 + 1) * 500;
-		printf("1: hello world ! (%u) (delay = %4d ms)\r\n", i, delayms);
+		printf("1: hello world ! (%u) (delay = %4d ms)\n", i, delayms);
 		task_sleepms(delayms);
 	}
 }
@@ -495,7 +495,7 @@ static void task2func(void *arg) {
 
 	for (unsigned int i = 0;; i++) {
 		delayms = (rand() % 10 + 1) * 500;
-		printf("2: hello world ! (%u) (delay = %4d ms)\r\n", i, delayms);
+		printf("2: hello world ! (%u) (delay = %4d ms)\n", i, delayms);
 		task_sleepms(delayms);
 	}
 }

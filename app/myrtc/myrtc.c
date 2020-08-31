@@ -73,17 +73,17 @@ int appmain(int argc, char *argv[]) {
 #endif
 
 	//
-	printf("\n\n\r\n");
-	printf("================================================================================\r\n");
-	printf("myrtc (build time: %s %s)\r\n", __TIME__, __DATE__);
-	printf("================================================================================\r\n");
-	printf("\r\n");
+	printf("\n\n\n");
+	printf("================================================================================\n");
+	printf("myrtc (build time: %s %s)\n", __TIME__, __DATE__);
+	printf("================================================================================\n");
+	printf("\n");
 #if (UBINOS__UBICLIB__USE_MALLOC_RETARGETING == 1)
 	r = heap_printheapinfo(NULL);
 	if (0 == r) {
-		printf("\r\n");
-		printf("================================================================================\r\n");
-		printf("\r\n");
+		printf("\n");
+		printf("================================================================================\n");
+		printf("\n");
 	}
 #endif /* (UBINOS__UBICLIB__USE_MALLOC_RETARGETING == 1) */
 
@@ -137,7 +137,7 @@ static void helloworld_mt_task1func(void *arg) {
 
 	for (unsigned int i = 0;; i++) {
 		delayms = (rand() % 10 + 1) * 200;
-		printf("1: hello world ! (%u) (delay = %4d ms)\r\n", i, delayms);
+		printf("1: hello world ! (%u) (delay = %4d ms)\n", i, delayms);
 		task_sleepms(delayms);
 	}
 }
@@ -149,7 +149,7 @@ static void helloworld_mt_task2func(void *arg) {
 
 	for (unsigned int i = 0;; i++) {
 		delayms = (rand() % 10 + 1) * 200;
-		printf("2: hello world ! (%u) (delay = %4d ms)\r\n", i, delayms);
+		printf("2: hello world ! (%u) (delay = %4d ms)\n", i, delayms);
 		task_sleepms(delayms);
 	}
 }
