@@ -760,6 +760,8 @@ if(INCLUDE__NRF5SDK)
 
     endif(UBINOS__BSP__NRF52_SOFTDEVICE_PRESENT)
 
+    set(PROJECT_SOURCES ${PROJECT_SOURCES} ${CMAKE_CURRENT_LIST_DIR}/ubinos/bsp/arch/arm/cortexm/nrf52dk/dtty_async.c)
+
 endif(INCLUDE__NRF5SDK)
 
 

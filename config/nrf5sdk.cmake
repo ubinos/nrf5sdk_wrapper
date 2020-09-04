@@ -169,14 +169,18 @@ endif()
 
 if(NRF5SDK__NRF_LIBUARTE_DRV_UARTE0_ENABLED)
     add_definitions("-DNRF_LIBUARTE_DRV_UARTE0_ENABLED=1")
+    add_definitions("-DNRF_LIBUARTE_DRV_UARTE0=1")
 else()
     add_definitions("-DNRF_LIBUARTE_DRV_UARTE0_ENABLED=0")
+    add_definitions("-DNRF_LIBUARTE_DRV_UARTE0=0")
 endif()
 
 if(NRF5SDK__NRF_LIBUARTE_DRV_UARTE1_ENABLED)
     add_definitions("-DNRF_LIBUARTE_DRV_UARTE1_ENABLED=1")
+    add_definitions("-DNRF_LIBUARTE_DRV_UARTE1=1")
 else()
     add_definitions("-DNRF_LIBUARTE_DRV_UARTE1_ENABLED=0")
+    add_definitions("-DNRF_LIBUARTE_DRV_UARTE1=0")
 endif()
 
 if(NRF5SDK__NRFX_CLOCK_ENABLED)
