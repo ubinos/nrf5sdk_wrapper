@@ -161,6 +161,7 @@ if(INCLUDE__NRF5SDK)
 
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/integration/nrfx/legacy/nrf_drv_power.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/integration/nrfx/legacy/nrf_drv_rng.c)
+    set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/integration/nrfx/legacy/nrf_drv_ppi.c)
     
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/drivers/src/nrfx_clock.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/drivers/src/nrfx_ppi.c)
