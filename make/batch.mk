@@ -247,6 +247,12 @@
 	make -f makefile.mk $@ CONFIG_NAME=twi_scanner_nrf52840dk_baremetal
 	@echo ""
 	@echo ""
+	@echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+	@echo ""
+	@echo ""
+	make -f makefile.mk $@ CONFIG_NAME=twi_sensor_nrf52840dk_baremetal
+	@echo ""
+	@echo ""
 
 
 	@echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
