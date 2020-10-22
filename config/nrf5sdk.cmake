@@ -37,6 +37,8 @@ set_cache_default(NRF5SDK__IOT_ENABLED                                          
 set_cache_default(NRF5SDK__LWIP_ENABLED                                         FALSE   BOOL "")
 set_cache_default(NRF5SDK__LWIP_DEBUG_ENABLED                                   FALSE   BOOL "")
 set_cache_default(NRF5SDK__MQTT_ENABLED                                         FALSE   BOOL "")
+set_cache_default(NRF5SDK__SPIM_ENABLED                                         FALSE   BOOL "Enable SPI Master")
+set_cache_default(NRF5SDK__SPIS_ENABLED                                         FALSE   BOOL "Enable SPI Slave")
 
 set_cache_default(NRF5SDK__SWI_DISABLE0                                         FALSE   BOOL "Exclude SWI0 from being utilized by the driver")
 set_cache_default(NRF5SDK__APP_TIMER_V2                                         FALSE   BOOL "")
