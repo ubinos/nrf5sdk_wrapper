@@ -534,6 +534,15 @@ if(INCLUDE__NRF5SDK)
     
     endif(NRF5SDK__SPIS_ENABLED)
 
+    if(NRF5SDK__TWI_ENABLED)
+    
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/integration/nrfx/legacy/nrf_drv_twi.c)
+        
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/drivers/src/nrfx_twi.c)
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/drivers/src/nrfx_twim.c)
+    
+    endif(NRF5SDK__TWI_ENABLED)
+
     if(UBINOS__BSP__NRF52_SOFTDEVICE_PRESENT)
     
         include_directories(${_tmp_source_dir}/components/ble/ble_advertising)
