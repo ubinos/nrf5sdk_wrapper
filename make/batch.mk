@@ -32,7 +32,6 @@
 	@echo ""
 	@echo ""
 	
-	
 	@echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 	@echo ""
 	@echo ""
@@ -210,6 +209,20 @@
 	@echo ""
 	@echo ""
 	make -f makefile.mk $@ CONFIG_NAME=ubik_tester_nrf52840dk_rtctick_dmpm
+	@echo ""
+	@echo ""
+	
+	
+	@echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+	@echo ""
+	@echo ""
+	make -f makefile.mk $@ CONFIG_NAME=rtc_nrf52840dk_baremetal
+	@echo ""
+	@echo ""
+	@echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+	@echo ""
+	@echo ""
+	make -f makefile.mk $@ CONFIG_NAME=rtc_nrf52dk_baremetal
 	@echo ""
 	@echo ""
 
