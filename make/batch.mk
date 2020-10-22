@@ -277,6 +277,12 @@
 	make -f makefile.mk $@ CONFIG_NAME=myspi_nrf52840dk
 	@echo ""
 	@echo ""
+	@echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+	@echo ""
+	@echo ""
+	make -f makefile.mk $@ CONFIG_NAME=myspis_nrf52840dk
+	@echo ""
+	@echo ""
 
 
 	@echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
