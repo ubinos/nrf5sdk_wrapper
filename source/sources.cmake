@@ -321,11 +321,11 @@ if(INCLUDE__NRF5SDK)
         
             set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/timer/app_timer2.c)
     
-            if(NRF5SDK__APP_TIMER_V2_RTC1_ENABLED)
+            if(NRF5SDK__APP_TIMER_V2_RTC0_ENABLED OR NRF5SDK__APP_TIMER_V2_RTC1_ENABLED OR NRF5SDK__APP_TIMER_V2_RTC2_ENABLED)
             
                 set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/timer/drv_rtc.c)
             
-            endif(NRF5SDK__APP_TIMER_V2_RTC1_ENABLED)
+            endif(NRF5SDK__APP_TIMER_V2_RTC0_ENABLED OR NRF5SDK__APP_TIMER_V2_RTC1_ENABLED OR NRF5SDK__APP_TIMER_V2_RTC2_ENABLED)
         
         else()
         

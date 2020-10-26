@@ -43,7 +43,9 @@ set_cache_default(NRF5SDK__TWI_ENABLED                                          
 
 set_cache_default(NRF5SDK__SWI_DISABLE0                                         FALSE   BOOL "Exclude SWI0 from being utilized by the driver")
 set_cache_default(NRF5SDK__APP_TIMER_V2                                         FALSE   BOOL "")
+set_cache_default(NRF5SDK__APP_TIMER_V2_RTC0_ENABLED                            FALSE   BOOL "")
 set_cache_default(NRF5SDK__APP_TIMER_V2_RTC1_ENABLED                            FALSE   BOOL "")
+set_cache_default(NRF5SDK__APP_TIMER_V2_RTC2_ENABLED                            FALSE   BOOL "")
 set_cache_default(NRF5SDK__DEBUG                                                FALSE   BOOL "")
 set_cache_default(NRF5SDK__DEBUG_NRF                                            FALSE   BOOL "")
 set_cache_default(NRF5SDK__BLE_STACK_SUPPORT_REQD                               FALSE   BOOL "")
@@ -53,6 +55,10 @@ set_cache_default(NRF5SDK__SDK_MUTEX_ENABLE                                     
 
 set_cache_default(NRF5SDK__NRF_LIBUARTE_DRV_UARTE0_ENABLED                      FALSE   BOOL "")
 set_cache_default(NRF5SDK__NRF_LIBUARTE_DRV_UARTE1_ENABLED                      FALSE   BOOL "")
+
+set_cache_default(NRF5SDK__NRFX_TIMER0_ENABLED                                  FALSE   BOOL "")
+set_cache_default(NRF5SDK__NRFX_TIMER1_ENABLED                                  FALSE   BOOL "")
+set_cache_default(NRF5SDK__NRFX_TIMER2_ENABLED                                  FALSE   BOOL "")
 
 set_cache_default(NRF5SDK__NRFX_CLOCK_ENABLED                                   TRUE    BOOL "")
 set_cache_default(NRF5SDK__NRFX_POWER_ENABLED                                   TRUE    BOOL "")
@@ -278,8 +284,24 @@ if(NRF5SDK__APP_TIMER_V2)
     set(_tmp_all_flags "${_tmp_all_flags} -DAPP_TIMER_V2")
 endif()
 
+if(NRF5SDK__APP_TIMER_V2_RTC0_ENABLED)
+    set(_tmp_all_flags "${_tmp_all_flags} -DAPP_TIMER_V2_RTC0_ENABLED")
+endif()
 if(NRF5SDK__APP_TIMER_V2_RTC1_ENABLED)
     set(_tmp_all_flags "${_tmp_all_flags} -DAPP_TIMER_V2_RTC1_ENABLED")
+endif()
+if(NRF5SDK__APP_TIMER_V2_RTC2_ENABLED)
+    set(_tmp_all_flags "${_tmp_all_flags} -DAPP_TIMER_V2_RTC2_ENABLED")
+endif()
+
+if(NRF5SDK__NRFX_TIMER0_ENABLED)
+    set(_tmp_all_flags "${_tmp_all_flags} -DNRFX_TIMER0_ENABLED")
+endif()
+if(NRF5SDK__NRFX_TIMER1_ENABLED)
+    set(_tmp_all_flags "${_tmp_all_flags} -DNRFX_TIMER1_ENABLED")
+endif()
+if(NRF5SDK__NRFX_TIMER2_ENABLED)
+    set(_tmp_all_flags "${_tmp_all_flags} -DNRFX_TIMER2_ENABLED")
 endif()
 
 if(NRF5SDK__DEBUG)
