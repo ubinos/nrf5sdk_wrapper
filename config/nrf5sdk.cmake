@@ -70,6 +70,8 @@ set_cache_default(NRF5SDK__SVC_INTERFACE_CALL_AS_NORMAL_FUNCTION FALSE BOOL "")
 set_cache_default(NRF5SDK__NRF_DFU_DEBUG_VERSION FALSE BOOL "")
 set_cache_default(NRF5SDK__NRF_DFU_SETTINGS_VERSION 2 STRING "")
 
+set_cache_default(NRF5SDK__DTTY_NRF_LIBUARTE_ENABLE FALSE BOOL "")
+
 if(NRF5SDK__IOT_ENABLED)
 
 set_cache_default(NRF5SDK__BLE_IPSP_RX_BUFFER_COUNT 2 STRING "")
@@ -103,9 +105,6 @@ if(UBINOS__BSP__USE_DTTY)
 	    set(_tmp_all_flags "${_tmp_all_flags} -DNRF_CLI_DTTY_ENABLED=0")
 	endif()
 
-	if(NRF5SDK__UART_ENABLED)
-	    message(FATAL_ERROR "If UBINOS__BSP__USE_DTTY is TRUE, then NRF5SDK__UART_ENABLED must be FALSE")
-	endif()
 	if(NRF5SDK__RTT_ENABLED)
 	    message(FATAL_ERROR "If UBINOS__BSP__USE_DTTY is TRUE, then NRF5SDK__RTT_ENABLED must be FALSE")
 	endif()
