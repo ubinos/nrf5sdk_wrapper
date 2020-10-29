@@ -177,7 +177,6 @@ if(INCLUDE__NRF5SDK)
 
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/soc/nrfx_atomic.c)
     
-    
     if(NRF5SDK__CLI_ENABLED)
         include_directories(${_tmp_source_dir}/components/libraries/cli)
         include_directories(${_tmp_source_dir}/components/libraries/cli/cdc_acm)
@@ -192,8 +191,6 @@ if(INCLUDE__NRF5SDK)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/cli/dtty/nrf_cli_dtty.c)
 
         if(NRF5SDK__NRF_LIBUARTE_DRV_UARTE0_ENABLED OR NRF5SDK__NRF_LIBUARTE_DRV_UARTE1_ENABLED)
-            include_directories(${_tmp_source_dir}/components/libraries/cli/libuarte)
-        
             set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/cli/libuarte/nrf_cli_libuarte.c)
         endif()
     endif()
@@ -277,22 +274,26 @@ if(INCLUDE__NRF5SDK)
     endif()
     
     if(NRF5SDK__UART_ENABLED)
-    
-        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/uart/retarget.c)
-        
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/integration/nrfx/legacy/nrf_drv_uart.c)
-        
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/drivers/src/nrfx_uart.c)
-        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/drivers/src/nrfx_uarte.c)
-    
-        if(NRF5SDK__ENABLE_APP_UART_FIFO)
-            set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/uart/app_uart_fifo.c)
-        else()
-            set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/uart/app_uart.c)
-        endif(NRF5SDK__ENABLE_APP_UART_FIFO)
-    
+        
+        if(NRF5SDK__NRFX_UARTE0_ENABLED OR NRF5SDK__NRFX_UARTE1_ENABLED)
+            set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/drivers/src/nrfx_uarte.c)
+        endif(NRF5SDK__NRFX_UARTE0_ENABLED OR NRF5SDK__NRFX_UARTE1_ENABLED)
+        
+        if(NRF5SDK__APP_UART_ENABLED)
+            if(NRF5SDK__APP_FIFO_ENABLED)
+                set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/uart/app_uart_fifo.c)
+            else()
+                set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/uart/app_uart.c)
+            endif(NRF5SDK__APP_FIFO_ENABLED)
+        endif(NRF5SDK__APP_UART_ENABLED)
     endif(NRF5SDK__UART_ENABLED)
-    
+
+    if(NRF5SDK__NRF_LOG_BACKEND_UART_ENABLED OR NRF5SDK__NRF_LOG_BACKEND_RTT_ENABLED)
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/uart/retarget.c)
+    endif(NRF5SDK__NRF_LOG_BACKEND_UART_ENABLED OR NRF5SDK__NRF_LOG_BACKEND_RTT_ENABLED)
+
     if(NRF5SDK__FREERTOS)
     
         include_directories(${_tmp_source_dir}/external/freertos/portable/CMSIS/nrf52)
@@ -788,6 +789,7 @@ if(INCLUDE__NRF5SDK)
     endif(UBINOS__BSP__NRF52_SOFTDEVICE_PRESENT)
 
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${CMAKE_CURRENT_LIST_DIR}/ubinos/bsp/arch/arm/cortexm/nrf52dk/dtty_nrf_libuarte.c)
+    set(PROJECT_SOURCES ${PROJECT_SOURCES} ${CMAKE_CURRENT_LIST_DIR}/ubinos/bsp/arch/arm/cortexm/nrf52dk/dtty_nrf_uart.c)
 
 endif(INCLUDE__NRF5SDK)
 
