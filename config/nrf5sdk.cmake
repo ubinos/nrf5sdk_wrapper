@@ -208,8 +208,10 @@ endif(NRF5SDK__NRF_LOG_BACKEND_UART_ENABLED OR NRF5SDK__NRF_LOG_BACKEND_RTT_ENAB
 
 if(NRF5SDK__USBD_ENABLED)
     add_definitions("-DUSBD_ENABLED=1")
+    add_definitions("-DAPP_USBD_ENABLED=1")
 else()
-    add_definitions("-DUSBD_ENABLED=0 -DAPP_USBD_ENABLED=0")
+    add_definitions("-DUSBD_ENABLED=0")
+    add_definitions("-DAPP_USBD_ENABLED=0")
 endif(NRF5SDK__USBD_ENABLED)
 
 if(NRF5SDK__NRF_LIBUARTE_DRV_UARTE0_ENABLED)
@@ -262,7 +264,7 @@ if(NRF5SDK__CRYPTO_ENABLED)
     if(NRF5SDK__CRYPTO_MBEDTLS_ENABLED)
 
 		set_cache_default(NRF5SDK__MBEDTLS_CONFIG_DIR "${NRF5SDK__BASE_DIR}/external/nrf_tls/mbedtls/tls/config" STRING "")
-		set_cache_default(NRF5SDK__MBEDTLS_CONFIG_FILE "\\\\\"nrf_tls_config.h\\\\\"" STRING "")
+		set_cache_default(NRF5SDK__MBEDTLS_CONFIG_FILE "\\\"nrf_tls_config.h\\\"" STRING "")
 		
 		set_cache_default(NRF5SDK__NRF_TLS_MAX_INSTANCE_COUNT 1 STRING "")
 
@@ -271,7 +273,7 @@ if(NRF5SDK__CRYPTO_ENABLED)
     else()
     
 		set_cache_default(NRF5SDK__MBEDTLS_CONFIG_DIR "${NRF5SDK__BASE_DIR}/external/nrf_tls/mbedtls/nrf_crypto/config" STRING "")
-		set_cache_default(NRF5SDK__MBEDTLS_CONFIG_FILE "\\\\\"nrf_crypto_mbedtls_config.h\\\\\"" STRING "")
+		set_cache_default(NRF5SDK__MBEDTLS_CONFIG_FILE "\\\"nrf_crypto_mbedtls_config.h\\\"" STRING "")
 		
 		set_cache_default(NRF5SDK__NRF_CRYPTO_MAX_INSTANCE_COUNT 1 STRING "")
 

@@ -33,17 +33,24 @@ extern int _g_bsp_dtty_init;
 extern int _g_bsp_dtty_echo;
 extern int _g_bsp_dtty_autocr;
 
-#define DTTY_NRF_LIBUARTE_READ_BUFFER_SIZE 256
+#define DTTY_NRF_LIBUARTE_READ_BUFFER_SIZE (512)
+#define DTTY_NRF_LIBUARTE_WRITE_BUFFER_SIZE (1024 * 10)
 
 NRF_LIBUARTE_ASYNC_DEFINE(_g_dtty_nrf_libuarte, 0, 0, 0, NRF_LIBUARTE_PERIPHERAL_NOT_USED, 255, 3);
 
 cbuf_def_init(_g_dtty_nrf_libuarte_rbuf, DTTY_NRF_LIBUARTE_READ_BUFFER_SIZE);
+cbuf_def_init(_g_dtty_nrf_libuarte_wbuf, DTTY_NRF_LIBUARTE_WRITE_BUFFER_SIZE);
+
+uint8_t _g_dtty_nrf_libuarte_overflow = 0;
+uint8_t _g_dtty_nrf_libuarte_is_tx_busy = 0;
 
 sem_pt _g_dtty_nrf_libuarte_read_sem = NULL;
 
 static void dtty_nrf_libuarte_event_handler(void *context, nrf_libuarte_async_evt_t *p_evt)
 {
     int need_signal = 0;
+    uint8_t * buf;
+    uint32_t len;
 
     switch (p_evt->type)
     {
@@ -51,6 +58,17 @@ static void dtty_nrf_libuarte_event_handler(void *context, nrf_libuarte_async_ev
         break;
 
     case NRF_LIBUARTE_ASYNC_EVT_RX_DATA:
+        if (p_evt->data.rxtx.length == 0)
+        {
+            break;
+        }
+
+        if (cbuf_is_full(_g_dtty_nrf_libuarte_rbuf))
+        {
+            _g_dtty_nrf_libuarte_overflow = 1;
+            break;
+        }
+
         if (cbuf_get_len(_g_dtty_nrf_libuarte_rbuf) == 0)
         {
             need_signal = 1;
@@ -65,6 +83,20 @@ static void dtty_nrf_libuarte_event_handler(void *context, nrf_libuarte_async_ev
         break;
 
     case NRF_LIBUARTE_ASYNC_EVT_TX_DONE:
+        if (p_evt->data.rxtx.length > 0)
+        {
+            cbuf_read(_g_dtty_nrf_libuarte_wbuf, NULL, p_evt->data.rxtx.length, NULL);
+        }
+
+        if (cbuf_get_len(_g_dtty_nrf_libuarte_wbuf) > 0)
+        {
+            buf = cbuf_get_head_addr(_g_dtty_nrf_libuarte_wbuf);
+            len = cbuf_get_contig_len(_g_dtty_nrf_libuarte_wbuf);
+            nrf_libuarte_async_tx(&_g_dtty_nrf_libuarte, buf, len);
+        }
+        else {
+            _g_dtty_nrf_libuarte_is_tx_busy = 0;
+        }
         break;
 
     default:
@@ -82,6 +114,9 @@ int dtty_init(void)
         r = semb_create(&_g_dtty_nrf_libuarte_read_sem);
         assert(r == 0);
 
+        _g_bsp_dtty_echo = 1;
+        _g_bsp_dtty_autocr = 1;
+
         nrf_libuarte_async_config_t nrf_libuarte_async_config =
         {
                 .tx_pin = TX_PIN_NUMBER,
@@ -96,9 +131,6 @@ int dtty_init(void)
         APP_ERROR_CHECK(err_code);
 
         nrf_libuarte_async_enable(&_g_dtty_nrf_libuarte);
-
-        _g_bsp_dtty_echo = 1;
-        _g_bsp_dtty_autocr = 1;
 
         _g_bsp_dtty_init = 1;
     }
@@ -157,32 +189,80 @@ int dtty_getc(char *ch_p)
 
 int dtty_putc(int ch)
 {
-    ret_code_t ret;
-    uint8_t buf[2];
+    uint32_t written;
+    uint8_t * buf;
     size_t len;
+    uint8_t data[2];
+    int ret;
 
     if (!_g_bsp_dtty_init)
     {
         dtty_init();
     }
 
-    if (_g_bsp_dtty_init && !bsp_isintr())
+    ret = 0;
+    do
     {
         if (0 != _g_bsp_dtty_autocr && '\n' == ch)
         {
-            buf[0] = '\r';
-            buf[1] = '\n';
+            data[0] = '\r';
+            data[1] = '\n';
             len = 2;
         }
         else
         {
-            buf[0] = (uint8_t) ch;
+            data[0] = (uint8_t) ch;
             len = 1;
         }
 
-        do
+        cbuf_write(_g_dtty_nrf_libuarte_wbuf, data, len, &written);
+        if (written == 0)
         {
-            ret = nrf_libuarte_async_tx(&_g_dtty_nrf_libuarte, buf, len);
+            break;
+        }
+        ret = 1;
+
+        if (_g_bsp_dtty_init && !bsp_isintr())
+        {
+            if (!_g_dtty_nrf_libuarte_is_tx_busy) {
+                buf = cbuf_get_head_addr(_g_dtty_nrf_libuarte_wbuf);
+                len = cbuf_get_contig_len(_g_dtty_nrf_libuarte_wbuf);
+                _g_dtty_nrf_libuarte_is_tx_busy = 1;
+                while (1)
+                {
+                    ret = nrf_libuarte_async_tx(&_g_dtty_nrf_libuarte, buf, len);
+                    if (ret == NRF_ERROR_BUSY)
+                    {
+                        continue;
+                    }
+                    APP_ERROR_CHECK(ret);
+                    break;
+                }
+            }
+        }
+    } while (0);
+
+    return ret;
+
+
+
+    if (_g_bsp_dtty_init && !bsp_isintr())
+    {
+        if (0 != _g_bsp_dtty_autocr && '\n' == ch)
+        {
+            data[0] = '\r';
+            data[1] = '\n';
+            len = 2;
+        }
+        else
+        {
+            data[0] = (uint8_t) ch;
+            len = 1;
+        }
+
+        while (1)
+        {
+            ret = nrf_libuarte_async_tx(&_g_dtty_nrf_libuarte, data, len);
             if (ret == NRF_ERROR_BUSY)
             {
                 continue;
@@ -190,9 +270,10 @@ int dtty_putc(int ch)
             APP_ERROR_CHECK(ret);
 
             break;
-        } while (1);
+        }
     }
-    return 0;
+
+    return ret;
 }
 
 int dtty_putn(const char *str, int len)

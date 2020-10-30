@@ -191,6 +191,8 @@ if(INCLUDE__NRF5SDK)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/cli/dtty/nrf_cli_dtty.c)
 
         if(NRF5SDK__NRF_LIBUARTE_DRV_UARTE0_ENABLED OR NRF5SDK__NRF_LIBUARTE_DRV_UARTE1_ENABLED)
+            include_directories(${_tmp_source_dir}/components/libraries/cli/libuarte)
+            
             set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/cli/libuarte/nrf_cli_libuarte.c)
         endif()
     endif()

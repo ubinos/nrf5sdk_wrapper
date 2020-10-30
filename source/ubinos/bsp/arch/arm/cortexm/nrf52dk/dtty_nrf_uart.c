@@ -33,22 +33,29 @@ extern int _g_bsp_dtty_echo;
 extern int _g_bsp_dtty_autocr;
 
 #define DTTY_NRF_UART_READ_BUFFER_SIZE (512)
-#define DTTY_NRF_UART_WRITE_BUFFER_SIZE (1024 * 4)
+#define DTTY_NRF_UART_WRITE_BUFFER_SIZE (1024 * 10)
 
 static nrf_drv_uart_t _g_dtty_nrf_uart = NRF_DRV_UART_INSTANCE(0);
 
 cbuf_def_init(_g_dtty_nrf_uart_rbuf, DTTY_NRF_UART_READ_BUFFER_SIZE);
 cbuf_def_init(_g_dtty_nrf_uart_wbuf, DTTY_NRF_UART_WRITE_BUFFER_SIZE);
 
-uint8_t _g_dtty_nrf_uart_overflow = 0;
+uint32_t _g_dtty_nrf_uart_rx_overflow_count = 0;
+uint8_t _g_dtty_nrf_uart_tx_busy = 0;
 
-sem_pt _g_dtty_nrf_uart_read_sem = NULL;
+sem_pt _g_dtty_nrf_uart_rsem = NULL;
+sem_pt _g_dtty_nrf_uart_wsem = NULL;
 
 static void dtty_nrf_uart_event_handler(nrf_drv_uart_event_t *p_event, void *p_context)
 {
     int need_signal = 0;
     uint8_t * buf;
     uint32_t len;
+    nrf_drv_uart_t * uart = &_g_dtty_nrf_uart;
+    cbuf_pt rbuf = _g_dtty_nrf_uart_rbuf;
+    cbuf_pt wbuf = _g_dtty_nrf_uart_wbuf;
+    sem_pt rsem = _g_dtty_nrf_uart_rsem;
+    sem_pt wsem = _g_dtty_nrf_uart_wsem;
 
     switch (p_event->type)
     {
@@ -56,48 +63,49 @@ static void dtty_nrf_uart_event_handler(nrf_drv_uart_event_t *p_event, void *p_c
         break;
 
     case NRF_DRV_UART_EVT_RX_DONE:
+        if (p_event->data.rxtx.bytes > 0)
+        {
+            if (cbuf_is_full(rbuf))
+            {
+                _g_dtty_nrf_uart_rx_overflow_count++;
+                break;
+            }
+
+            if (cbuf_get_len(rbuf) == 0)
+            {
+                need_signal = 1;
+            }
+
+            len = 1;
+            cbuf_write(rbuf, NULL, len, NULL);
+
+            if (need_signal && _bsp_kernel_active)
+            {
+                sem_give(rsem);
+            }
+        }
+
+        buf = cbuf_get_tail_addr(rbuf);
         len = 1;
-
-        if (p_event->data.rxtx.bytes == 0)
-        {
-            buf = cbuf_get_tail_addr(_g_dtty_nrf_uart_rbuf);
-            nrf_drv_uart_rx(&_g_dtty_nrf_uart, buf, len);
-            break;
-        }
-
-        if (cbuf_is_full(_g_dtty_nrf_uart_rbuf))
-        {
-            _g_dtty_nrf_uart_overflow = 1;
-            break;
-        }
-
-        if (cbuf_get_len(_g_dtty_nrf_uart_rbuf) == 0)
-        {
-            need_signal = 1;
-        }
-
-        cbuf_write(_g_dtty_nrf_uart_rbuf, NULL, len, NULL);
-
-        if (need_signal && _bsp_kernel_active)
-        {
-            sem_give(_g_dtty_nrf_uart_read_sem);
-        }
-
-        buf = cbuf_get_tail_addr(_g_dtty_nrf_uart_rbuf);
-        nrf_drv_uart_rx(&_g_dtty_nrf_uart, buf, len);
+        nrf_drv_uart_rx(uart, buf, len);
         break;
 
     case NRF_DRV_UART_EVT_TX_DONE:
         if (p_event->data.rxtx.bytes > 0)
         {
-            cbuf_read(_g_dtty_nrf_uart_wbuf, NULL, p_event->data.rxtx.bytes, NULL);
+            cbuf_read(wbuf, NULL, p_event->data.rxtx.bytes, NULL);
         }
 
-        if (cbuf_get_len(_g_dtty_nrf_uart_wbuf) > 0)
+        if (cbuf_get_len(wbuf) > 0)
         {
-            buf = cbuf_get_head_addr(_g_dtty_nrf_uart_wbuf);
+            buf = cbuf_get_head_addr(wbuf);
             len = 1;
-            nrf_drv_uart_tx(&_g_dtty_nrf_uart, buf, len);
+            nrf_drv_uart_tx(uart, buf, len);
+        }
+        else
+        {
+            _g_dtty_nrf_uart_tx_busy = 0;
+            sem_give(wsem);
         }
         break;
 
@@ -116,7 +124,9 @@ int dtty_init(void)
 
     if (!_g_bsp_dtty_init && !bsp_isintr() && _bsp_kernel_active)
     {
-        r = semb_create(&_g_dtty_nrf_uart_read_sem);
+        r = semb_create(&_g_dtty_nrf_uart_rsem);
+        assert(r == 0);
+        r = semb_create(&_g_dtty_nrf_uart_wsem);
         assert(r == 0);
 
         _g_bsp_dtty_echo = 1;
@@ -137,14 +147,14 @@ int dtty_init(void)
         nrf_err = nrf_drv_uart_init(&_g_dtty_nrf_uart, &config, dtty_nrf_uart_event_handler);
         assert(nrf_err == NRF_SUCCESS);
 
+        _g_bsp_dtty_init = 1;
+
         if (!cbuf_is_full(_g_dtty_nrf_uart_rbuf))
         {
             buf = cbuf_get_tail_addr(_g_dtty_nrf_uart_rbuf);
             len = 1;
             nrf_drv_uart_rx(&_g_dtty_nrf_uart, buf, len);
         }
-
-        _g_bsp_dtty_init = 1;
     }
 
     return 0;
@@ -168,8 +178,6 @@ int dtty_geterror(void)
 int dtty_getc(char *ch_p)
 {
     ubi_err_t ubi_err;
-    uint8_t * buf;
-    uint32_t len;
 
     if (!_g_bsp_dtty_init)
     {
@@ -178,24 +186,16 @@ int dtty_getc(char *ch_p)
 
     if (_g_bsp_dtty_init && !bsp_isintr())
     {
-        while (1)
+        for (;;)
         {
-            if (cbuf_get_len(_g_dtty_nrf_uart_rbuf) == 0)
-            {
-                sem_take(_g_dtty_nrf_uart_read_sem);
-            }
-
             ubi_err = cbuf_read(_g_dtty_nrf_uart_rbuf, (uint8_t*) ch_p, 1, NULL);
             if (ubi_err == UBI_ERR_OK)
             {
-                if (_g_dtty_nrf_uart_overflow)
-                {
-                    _g_dtty_nrf_uart_overflow = 0;
-                    buf = cbuf_get_tail_addr(_g_dtty_nrf_uart_rbuf);
-                    len = 1;
-                    nrf_drv_uart_rx(&_g_dtty_nrf_uart, buf, len);
-                }
                 break;
+            }
+            else
+            {
+                sem_take(_g_dtty_nrf_uart_rsem);
             }
         }
     }
@@ -245,12 +245,25 @@ int dtty_putc(int ch)
 
         if (_g_bsp_dtty_init && !bsp_isintr())
         {
-            if (!nrf_drv_uart_tx_in_progress(&_g_dtty_nrf_uart))
+            if (!_g_dtty_nrf_uart_tx_busy)
             {
                 buf = cbuf_get_head_addr(_g_dtty_nrf_uart_wbuf);
                 len = 1;
-                nrf_drv_uart_tx(&_g_dtty_nrf_uart, buf, len);
+                _g_dtty_nrf_uart_tx_busy = 1;
+                for (uint32_t i = 0;; i++)
+                {
+                    if (!nrf_drv_uart_tx_in_progress(&_g_dtty_nrf_uart))
+                    {
+                        nrf_drv_uart_tx(&_g_dtty_nrf_uart, buf, len);
+                        break;
+                    }
+                    if (i >= 99)
+                    {
+                        break;
+                    }
+                }
             }
+
         }
     } while (0);
 
