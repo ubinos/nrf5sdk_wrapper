@@ -121,6 +121,8 @@ int dtty_init(void)
     uint8_t * buf;
     uint32_t len;
     nrf_drv_uart_config_t config;
+    (void) r;
+    (void) nrf_err;
 
     if (!_g_bsp_dtty_init && !bsp_isintr() && _bsp_kernel_active)
     {

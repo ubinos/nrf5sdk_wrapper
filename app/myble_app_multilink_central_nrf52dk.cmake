@@ -1,9 +1,14 @@
 set_cache(UBINOS__BSP__LINK_MEMMAP_RAM_ORIGIN 0x20004400 STRING)
 set_cache(UBINOS__BSP__LINK_MEMMAP_RAM_LENGTH 0x0000BC00 STRING)
 
+#set_cache(UBINOS__BSP__DTTY_TYPE "EXTERNAL" STRING)
+#set_cache(SEGGERRTT__DTTY_ENABLE TRUE BOOL)
+
 set_cache(NRF5SDK__SWI_DISABLE0 TRUE BOOL)
 
 include(${PROJECT_UBINOS_DIR}/config/ubinos_nrf52dk_softdevice.cmake)
+
+#include(${PROJECT_LIBRARY_DIR}/seggerrtt_wrapper/config/seggerrtt.cmake)
 
 include(${PROJECT_LIBRARY_DIR}/nrf5sdk_wrapper/config/nrf5sdk.cmake)
 
