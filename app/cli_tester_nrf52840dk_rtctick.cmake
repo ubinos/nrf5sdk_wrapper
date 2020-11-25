@@ -32,11 +32,11 @@ include(${PROJECT_UBINOS_DIR}/app/cli_tester.cmake)
 
 ####
 
-string(TOLOWER ${NRF5SDK__BOARD_NAME} _temp_board_name)
+string(TOLOWER ${UBINOS__BSP__BOARD_MODEL} _temp_board_model)
 
 get_filename_component(_tmp_source_dir "${CMAKE_CURRENT_LIST_DIR}/cli_tester" ABSOLUTE)
 
-include_directories(${_tmp_source_dir}/arch/arm/cortexm/${_temp_board_name}/blank/config)
+include_directories(${_tmp_source_dir}/arch/arm/cortexm/${_temp_board_model}/blank/config)
 include_directories(${_tmp_source_dir})
 
 
