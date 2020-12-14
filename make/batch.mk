@@ -351,12 +351,22 @@
 	make -f makefile.mk $@ CONFIG_NAME=myble_app_hids_mouse_nrf52840dk
 	@echo ""
 	@echo ""
-
-
+	@echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+	@echo ""
+	@echo ""
+	make -f makefile.mk $@ CONFIG_NAME=myble_app_hids_mouse_nrf52840dk_rtctick
+	@echo ""
+	@echo ""
 	@echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 	@echo ""
 	@echo ""
 	make -f makefile.mk $@ CONFIG_NAME=myble_app_hids_mouse_nrf52dk
+	@echo ""
+	@echo ""
+	@echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+	@echo ""
+	@echo ""
+	make -f makefile.mk $@ CONFIG_NAME=myble_app_hids_mouse_nrf52dk_rtctick
 	@echo ""
 	@echo ""
 
