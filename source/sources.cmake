@@ -778,6 +778,16 @@ if(INCLUDE__NRF5SDK)
 
         endif(NRF5SDK__FREERTOS)
 
+        if(NRF5SDK__BLE_STACK_SUPPORT_REQD)
+
+            include_directories(${_tmp_source_dir}/components/ble/ble_link_ctx_manager)
+            include_directories(${_tmp_source_dir}/components/ble/ble_services/ble_hids)
+
+            set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/ble_link_ctx_manager/ble_link_ctx_manager.c)
+            set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/ble_services/ble_hids/ble_hids.c)
+
+        endif(NRF5SDK__BLE_STACK_SUPPORT_REQD)
+
     else()
         if(UBINOS__BSP__NRF52_MBR_PRESENT AND (NOT ${UBINOS__BSP__NRF52_SOFTDEVICE_INCLUDE_DIR} STREQUAL ""))
             include_directories(${UBINOS__BSP__NRF52_SOFTDEVICE_INCLUDE_DIR})
