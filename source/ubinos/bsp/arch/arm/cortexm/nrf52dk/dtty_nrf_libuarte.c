@@ -276,6 +276,11 @@ int dtty_putc(int ch)
     return ret;
 }
 
+int dtty_flush(void)
+{
+    return 0;
+}
+
 int dtty_putn(const char *str, int len)
 {
     int i = 0;
