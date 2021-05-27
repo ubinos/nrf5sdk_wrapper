@@ -53,6 +53,7 @@
  */
 
 #include <ubinos.h>
+#include <ubinos/bsp/arch.h>
 
 #if (INCLUDE__APP__myble_app_hids_mouse == 1)
 

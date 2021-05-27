@@ -19,6 +19,7 @@
 #endif
 
 #include <ubinos/bsp.h>
+#include <ubinos/bsp/arch.h>
 #include <ubinos/bsp_ubik.h>
 
 #include <assert.h>

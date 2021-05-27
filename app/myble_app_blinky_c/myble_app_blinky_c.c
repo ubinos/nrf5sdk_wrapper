@@ -42,6 +42,7 @@
  */
 
 #include <ubinos.h>
+#include <ubinos/bsp/arch.h>
 
 #if (INCLUDE__APP__myble_app_blinky_c == 1)
 

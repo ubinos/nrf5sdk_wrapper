@@ -42,6 +42,7 @@
  */
 
 #include <ubinos.h>
+#include <ubinos/bsp/arch.h>
 
 #if (INCLUDE__APP__myble_app_att_mtu_throughput == 1)
 
@@ -676,9 +677,9 @@ static void advertising_start(void)
 static void scan_evt_handler(scan_evt_t const * p_scan_evt)
 {
     ret_code_t                       err_code;
-    ble_gap_evt_adv_report_t const * p_adv = 
+    ble_gap_evt_adv_report_t const * p_adv =
                    p_scan_evt->params.filter_match.p_adv_report;
-    ble_gap_scan_params_t    const * p_scan_param = 
+    ble_gap_scan_params_t    const * p_scan_param =
                    p_scan_evt->p_scan_params;
 
     switch(p_scan_evt->scan_evt_id)
@@ -725,13 +726,13 @@ static void scan_init(void)
     err_code = nrf_ble_scan_init(&m_scan, NULL, scan_evt_handler);
     APP_ERROR_CHECK(err_code);
 
-    err_code = nrf_ble_scan_filter_set(&m_scan, 
-                                       SCAN_NAME_FILTER, 
+    err_code = nrf_ble_scan_filter_set(&m_scan,
+                                       SCAN_NAME_FILTER,
                                        m_target_periph_name);
     APP_ERROR_CHECK(err_code);
 
-    err_code = nrf_ble_scan_filters_enable(&m_scan, 
-                                           NRF_BLE_SCAN_NAME_FILTER, 
+    err_code = nrf_ble_scan_filters_enable(&m_scan,
+                                           NRF_BLE_SCAN_NAME_FILTER,
                                            false);
     APP_ERROR_CHECK(err_code);
 }
