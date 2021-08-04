@@ -1,3 +1,11 @@
+#
+# Copyright (c) 2019 Sung Ho Park and CSOS
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+# {ubinos_config_type: [buildable, cmake, app]}
+
 set_cache(NRF5SDK__SPIM_ENABLED TRUE BOOL)
 set_cache(NRF5SDK__APP_TIMER_V2 TRUE BOOL)
 set_cache(NRF5SDK__APP_TIMER_V2_RTC1_ENABLED TRUE BOOL)

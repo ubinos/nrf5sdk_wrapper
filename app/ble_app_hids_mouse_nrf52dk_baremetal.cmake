@@ -1,3 +1,11 @@
+#
+# Copyright (c) 2019 Sung Ho Park and CSOS
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+# {ubinos_config_type: [buildable, cmake, app]}
+
 set_cache(UBINOS__UBICLIB__USE_STDIO_RETARGETING FALSE BOOL)
 set_cache(UBINOS__BSP__USE_DTTY FALSE BOOL)
 

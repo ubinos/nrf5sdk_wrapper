@@ -1,3 +1,11 @@
+#
+# Copyright (c) 2019 Sung Ho Park and CSOS
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+# {ubinos_config_type: [buildable, cmake, app]}
+
 set_cache(NRF5SDK__SWI_DISABLE0 TRUE BOOL)
 set_cache(NRF5SDK__BLE_STACK_SUPPORT_REQD TRUE BOOL)
 
