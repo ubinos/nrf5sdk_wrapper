@@ -29,6 +29,7 @@ set_cache(NRF5SDK__NRFX_UARTE0_ENABLED TRUE BOOL)
 include(${PROJECT_UBINOS_DIR}/config/ubinos_nrf52dk.cmake)
 
 include(${PROJECT_LIBRARY_DIR}/nrf5sdk_wrapper/config/nrf5sdk.cmake)
+include(${PROJECT_LIBRARY_DIR}/nrf5sdk_extension/config/nrf5sdk_extension.cmake)
 
 include(${PROJECT_UBINOS_DIR}/app/cli_tester.cmake)
 

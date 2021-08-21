@@ -1,19 +1,19 @@
 #
 # Copyright (c) 2019 Sung Ho Park and CSOS
-# 
+#
 # SPDX-License-Identifier: Apache-2.0
 #
 
 if(INCLUDE__NRF5SDK)
 
     get_filename_component(_tmp_source_dir "${NRF5SDK__BASE_DIR}" ABSOLUTE)
-    
+
     include_directories(${_tmp_source_dir}/components)
-    
+
     include_directories(${_tmp_source_dir}/components/boards)
-    
+
     include_directories(${_tmp_source_dir}/components/drivers_nrf/radio_config)
-    
+
     include_directories(${_tmp_source_dir}/components/libraries)
     include_directories(${_tmp_source_dir}/components/libraries/atomic)
     include_directories(${_tmp_source_dir}/components/libraries/atomic_fifo)
@@ -75,7 +75,7 @@ if(INCLUDE__NRF5SDK)
     include_directories(${_tmp_source_dir}/components/libraries/usbd/class/hid/mouse)
     include_directories(${_tmp_source_dir}/components/libraries/usbd/class/msc)
     include_directories(${_tmp_source_dir}/components/libraries/util)
-    
+
     include_directories(${_tmp_source_dir}/components/toolchain/cmsis/include)
 
     include_directories(${_tmp_source_dir}/external/fnmatch)
@@ -92,33 +92,33 @@ if(INCLUDE__NRF5SDK)
     include_directories(${_tmp_source_dir}/modules/nrfx/mdk)
 
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/boards/boards.c)
-    
+
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/drivers_nrf/radio_config/radio_config.c)
 
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/atomic/nrf_atomic.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/atomic_fifo/nrf_atfifo.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/atomic_flags/nrf_atflags.c)
-    
+
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/balloc/nrf_balloc.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/button/app_button.c)
-    
+
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/crc16/crc16.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/crc32/crc32.c)
-    
+
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/experimental_section_vars/nrf_section_iter.c)
-    
+
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/fds/fds.c)
 
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/fifo/app_fifo.c)
 
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/fstorage/nrf_fstorage.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/fstorage/nrf_fstorage_nvmc.c)
-    
+
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/hardfault/hardfault_implementation.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/hardfault/nrf52/handler/hardfault_handler_gcc.c)
-    
+
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/mem_manager/mem_manager.c)
-      
+
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/log/src/nrf_log_frontend.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/log/src/nrf_log_str_formatter.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/log/src/nrf_log_backend_serial.c)
@@ -127,9 +127,9 @@ if(INCLUDE__NRF5SDK)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/log/src/nrf_log_backend_flash.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/log/src/nrf_log_backend_dtty.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/log/src/nrf_log_default_backends.c)
-  
+
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/memobj/nrf_memobj.c)
-    
+
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/mpu/nrf_mpu_lib.c)
 
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/pwr_mgmt/nrf_pwr_mgmt.c)
@@ -137,7 +137,7 @@ if(INCLUDE__NRF5SDK)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/queue/nrf_queue.c)
 
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/ringbuf/nrf_ringbuf.c)
-    
+
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/scheduler/app_scheduler.c)
 
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/sensorsim/sensorsim.c)
@@ -147,7 +147,7 @@ if(INCLUDE__NRF5SDK)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/stack_guard/nrf_stack_guard.c)
 
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/strerror/nrf_strerror.c)
-    
+
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/util/app_error.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/util/app_error_handler_gcc.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/util/app_error_weak.c)
@@ -162,28 +162,28 @@ if(INCLUDE__NRF5SDK)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/integration/nrfx/legacy/nrf_drv_power.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/integration/nrfx/legacy/nrf_drv_rng.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/integration/nrfx/legacy/nrf_drv_ppi.c)
-    
+
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/drivers/src/nrfx_clock.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/drivers/src/nrfx_ppi.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/drivers/src/nrfx_gpiote.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/drivers/src/nrfx_systick.c)
-    set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/drivers/src/nrfx_power.c)    
+    set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/drivers/src/nrfx_power.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/drivers/src/nrfx_rtc.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/drivers/src/nrfx_timer.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/drivers/src/nrfx_rng.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/drivers/src/prs/nrfx_prs.c)
-    
+
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/hal/nrf_nvmc.c)
 
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/soc/nrfx_atomic.c)
-    
+
     if(NRF5SDK__CLI_ENABLED)
         include_directories(${_tmp_source_dir}/components/libraries/cli)
         include_directories(${_tmp_source_dir}/components/libraries/cli/cdc_acm)
         include_directories(${_tmp_source_dir}/components/libraries/cli/rtt)
         include_directories(${_tmp_source_dir}/components/libraries/cli/uart)
         include_directories(${_tmp_source_dir}/components/libraries/cli/dtty)
-            
+
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/cli/nrf_cli.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/cli/cdc_acm/nrf_cli_cdc_acm.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/cli/rtt/nrf_cli_rtt.c)
@@ -192,25 +192,25 @@ if(INCLUDE__NRF5SDK)
 
         if(NRF5SDK__NRF_LIBUARTE_DRV_UARTE0_ENABLED OR NRF5SDK__NRF_LIBUARTE_DRV_UARTE1_ENABLED)
             include_directories(${_tmp_source_dir}/components/libraries/cli/libuarte)
-            
+
             set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/cli/libuarte/nrf_cli_libuarte.c)
         endif()
     endif()
 
     if(NRF5SDK__NRF_LIBUARTE_DRV_UARTE0_ENABLED OR NRF5SDK__NRF_LIBUARTE_DRV_UARTE1_ENABLED)
         include_directories(${_tmp_source_dir}/components/libraries/libuarte)
-        
+
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/libuarte/nrf_libuarte_async.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/libuarte/nrf_libuarte_drv.c)
     endif()
 
     if(NRF5SDK__ENABLE_BOOTLOADER)
-        
+
         include_directories(${_tmp_source_dir}/components/libraries/bootloader)
         include_directories(${_tmp_source_dir}/components/libraries/bootloader/dfu)
         include_directories(${_tmp_source_dir}/components/libraries/bootloader/serial_dfu)
         include_directories(${_tmp_source_dir}/external/nano-pb)
-        
+
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/dfu/dfu-cc.pb.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/dfu/nrf_dfu.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/dfu/nrf_dfu_flash.c)
@@ -222,7 +222,7 @@ if(INCLUDE__NRF5SDK)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/dfu/nrf_dfu_utils.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/dfu/nrf_dfu_validation.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/dfu/nrf_dfu_ver_validation.c)
-        
+
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/nrf_bootloader.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/nrf_bootloader_app_start.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/nrf_bootloader_app_start_final.c)
@@ -230,35 +230,35 @@ if(INCLUDE__NRF5SDK)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/nrf_bootloader_fw_activation.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/nrf_bootloader_info.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/nrf_bootloader_wdt.c)
-        
+
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/serial_dfu/nrf_dfu_serial.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bootloader/serial_dfu/nrf_dfu_serial_usb.c)
-        
+
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/led_softblink/led_softblink.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/low_power_pwm/low_power_pwm.c)
-        
+
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/crypto/backend/cc310_bl/cc310_bl_backend_ecc.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/crypto/backend/cc310_bl/cc310_bl_backend_ecdsa.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/crypto/backend/cc310_bl/cc310_bl_backend_hash.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/crypto/backend/cc310_bl/cc310_bl_backend_init.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/crypto/backend/cc310_bl/cc310_bl_backend_shared.c)
-        
+
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/slip/slip.c)
-        
+
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/nano-pb/pb_common.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/nano-pb/pb_decode.c)
-        
+
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/examples/dfu/dfu_public_key.c)
-        
+
     endif(NRF5SDK__ENABLE_BOOTLOADER)
-    
+
     if(NRF5SDK__USBD_ENABLED)
 
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/usbd/app_usbd.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/usbd/app_usbd_core.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/usbd/app_usbd_serial_num.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/usbd/app_usbd_string_desc.c)
-        
+
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/usbd/class/audio/app_usbd_audio.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/usbd/class/cdc/acm/app_usbd_cdc_acm.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/usbd/class/dummy/app_usbd_dummy.c)
@@ -268,21 +268,21 @@ if(INCLUDE__NRF5SDK)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/usbd/class/hid/app_usbd_hid.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/usbd/class/msc/app_usbd_msc.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/drivers/src/nrfx_usbd.c)
-       
+
     endif(NRF5SDK__USBD_ENABLED)
-        
+
     if(NRF5SDK__NRFX_CLOCK_ENABLED OR NRF5SDK__NRFX_POWER_ENABLED)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/integration/nrfx/legacy/nrf_drv_clock.c)
     endif()
-    
+
     if(NRF5SDK__UART_ENABLED)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/integration/nrfx/legacy/nrf_drv_uart.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/drivers/src/nrfx_uart.c)
-        
+
         if(NRF5SDK__NRFX_UARTE0_ENABLED OR NRF5SDK__NRFX_UARTE1_ENABLED)
             set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/drivers/src/nrfx_uarte.c)
         endif(NRF5SDK__NRFX_UARTE0_ENABLED OR NRF5SDK__NRFX_UARTE1_ENABLED)
-        
+
         if(NRF5SDK__APP_UART_ENABLED)
             if(NRF5SDK__APP_FIFO_ENABLED)
                 set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/uart/app_uart_fifo.c)
@@ -297,13 +297,13 @@ if(INCLUDE__NRF5SDK)
     endif(NRF5SDK__NRF_LOG_BACKEND_UART_ENABLED OR NRF5SDK__NRF_LOG_BACKEND_RTT_ENABLED)
 
     if(NRF5SDK__FREERTOS)
-    
+
         include_directories(${_tmp_source_dir}/external/freertos/portable/CMSIS/nrf52)
         include_directories(${_tmp_source_dir}/external/freertos/portable/GCC/nrf52)
         include_directories(${_tmp_source_dir}/external/freertos/source/include)
-        
+
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/timer/app_timer_freertos.c)
-        
+
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/freertos/portable/CMSIS/nrf52/port_cmsis.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/freertos/portable/CMSIS/nrf52/port_cmsis_systick.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/freertos/portable/GCC/nrf52/port.c)
@@ -321,21 +321,21 @@ if(INCLUDE__NRF5SDK)
     else()
 
         if(NRF5SDK__APP_TIMER_V2)
-        
+
             set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/timer/app_timer2.c)
-    
+
             if(NRF5SDK__APP_TIMER_V2_RTC0_ENABLED OR NRF5SDK__APP_TIMER_V2_RTC1_ENABLED OR NRF5SDK__APP_TIMER_V2_RTC2_ENABLED)
-            
+
                 set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/timer/drv_rtc.c)
-            
+
             endif(NRF5SDK__APP_TIMER_V2_RTC0_ENABLED OR NRF5SDK__APP_TIMER_V2_RTC1_ENABLED OR NRF5SDK__APP_TIMER_V2_RTC2_ENABLED)
-        
+
         else()
-        
+
             set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/timer/app_timer.c)
-            
+
         endif(NRF5SDK__APP_TIMER_V2)
-    
+
     endif(NRF5SDK__FREERTOS)
 
     if(NRF5SDK__CRYPTO_ENABLED)
@@ -343,7 +343,7 @@ if(INCLUDE__NRF5SDK)
         if(NRF5SDK__CRYPTO_MBEDTLS_ENABLED)
 
             include_directories(${_tmp_source_dir}/external/mbedtls/include)
-            include_directories(${_tmp_source_dir}/external/nrf_tls) 
+            include_directories(${_tmp_source_dir}/external/nrf_tls)
 
             set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/mbedtls/library/aesni.c)
             set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/mbedtls/library/arc4.c)
@@ -407,7 +407,7 @@ if(INCLUDE__NRF5SDK)
             set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/mbedtls/library/x509_crt.c)
             set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/mbedtls/library/x509_csr.c)
             set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/mbedtls/library/xtea.c)
-            
+
             set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/nrf_tls/mbedtls/replacements/asn1write.c)
             set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/nrf_tls/mbedtls/replacements/ssl_srv.c)
             set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/nrf_tls/mbedtls/tls_interface.c)
@@ -417,12 +417,12 @@ if(INCLUDE__NRF5SDK)
             include_directories(${_tmp_source_dir}/components/libraries/crypto/backend/cc310)
             include_directories(${_tmp_source_dir}/components/libraries/crypto/backend/cc310_bl)
             include_directories(${_tmp_source_dir}/components/libraries/crypto/backend/oberon)
-        
+
             include_directories(${_tmp_source_dir}/external/nrf_cc310/include)
             include_directories(${_tmp_source_dir}/external/nrf_cc310_bl/include)
             include_directories(${_tmp_source_dir}/external/nrf_oberon)
             include_directories(${_tmp_source_dir}/external/nrf_oberon/include)
-    
+
             set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/crypto/nrf_crypto_aead.c)
             set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/crypto/nrf_crypto_aes.c)
             set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/crypto/nrf_crypto_aes_shared.c)
@@ -437,7 +437,7 @@ if(INCLUDE__NRF5SDK)
             set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/crypto/nrf_crypto_init.c)
             set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/crypto/nrf_crypto_rng.c)
             set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/crypto/nrf_crypto_shared.c)
-    
+
             set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/crypto/backend/oberon/oberon_backend_chacha_poly_aead.c)
             set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/crypto/backend/oberon/oberon_backend_ecc.c)
             set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/crypto/backend/oberon/oberon_backend_ecdh.c)
@@ -474,14 +474,14 @@ if(INCLUDE__NRF5SDK)
         include_directories(${_tmp_source_dir}/components/libraries/crypto/backend/optiga)
         include_directories(${_tmp_source_dir}/components/libraries/crypto/backend/mbedtls)
 
-        include_directories(${_tmp_source_dir}/external/mbedtls/include) 
+        include_directories(${_tmp_source_dir}/external/mbedtls/include)
         include_directories(${NRF5SDK__MBEDTLS_CONFIG_DIR})
 
         include_directories(${NRF5SDK__LIB_INCLUDE_CC310})
 
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/mbedtls/library/aes.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/mbedtls/library/ctr_drbg.c)
-        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/mbedtls/library/platform_util.c) 
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/mbedtls/library/platform_util.c)
 
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/crypto/backend/nrf_hw/nrf_hw_backend_init.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/crypto/backend/nrf_hw/nrf_hw_backend_rng.c)
@@ -491,9 +491,9 @@ if(INCLUDE__NRF5SDK)
     endif(NRF5SDK__CRYPTO_ENABLED)
 
     if(NRF5SDK__MQTT_ENABLED)
-    
+
         include_directories(${_tmp_source_dir}/components/iot/mqtt)
-    
+
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/iot/mqtt/mqtt.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/iot/mqtt/mqtt_decoder.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/iot/mqtt/mqtt_encoder.c)
@@ -501,7 +501,7 @@ if(INCLUDE__NRF5SDK)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/iot/mqtt/mqtt_transport.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/iot/mqtt/mqtt_transport_lwip.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/iot/mqtt/mqtt_transport_tls.c)
-  
+
     endif(NRF5SDK__MQTT_ENABLED)
 
     if(NOT NRF5SDK__BSP_DEFINES_ONLY)
@@ -514,7 +514,7 @@ if(INCLUDE__NRF5SDK)
     if(NRF5SDK__RTT_ENABLED)
 
         include_directories(${_tmp_source_dir}/external/segger_rtt)
-    
+
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/segger_rtt/SEGGER_RTT.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/segger_rtt/SEGGER_RTT_printf.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/segger_rtt/SEGGER_RTT_Syscalls_GCC.c)
@@ -522,33 +522,33 @@ if(INCLUDE__NRF5SDK)
     endif(NRF5SDK__RTT_ENABLED)
 
     if(NRF5SDK__SPIM_ENABLED)
-    
+
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/integration/nrfx/legacy/nrf_drv_spi.c)
-        
+
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/drivers/src/nrfx_spi.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/drivers/src/nrfx_spim.c)
-    
+
     endif(NRF5SDK__SPIM_ENABLED)
 
     if(NRF5SDK__SPIS_ENABLED)
-    
+
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/integration/nrfx/legacy/nrf_drv_spis.c)
-        
+
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/drivers/src/nrfx_spis.c)
-    
+
     endif(NRF5SDK__SPIS_ENABLED)
 
     if(NRF5SDK__TWI_ENABLED)
-    
+
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/integration/nrfx/legacy/nrf_drv_twi.c)
-        
+
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/drivers/src/nrfx_twi.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/modules/nrfx/drivers/src/nrfx_twim.c)
-    
+
     endif(NRF5SDK__TWI_ENABLED)
 
     if(UBINOS__BSP__NRF52_SOFTDEVICE_PRESENT)
-    
+
         include_directories(${_tmp_source_dir}/components/ble/ble_advertising)
         include_directories(${_tmp_source_dir}/components/ble/ble_db_discovery)
         include_directories(${_tmp_source_dir}/components/ble/ble_dtm)
@@ -582,7 +582,7 @@ if(INCLUDE__NRF5SDK)
         include_directories(${_tmp_source_dir}/components/ble/nrf_ble_gq)
         include_directories(${_tmp_source_dir}/components/ble/nrf_ble_qwr)
         include_directories(${_tmp_source_dir}/components/ble/peer_manager)
-    
+
         include_directories(${_tmp_source_dir}/components/nfc/ndef/conn_hand_parser)
         include_directories(${_tmp_source_dir}/components/nfc/ndef/conn_hand_parser/ac_rec_parser)
         include_directories(${_tmp_source_dir}/components/nfc/ndef/conn_hand_parser/ble_oob_advdata_parser)
@@ -611,19 +611,19 @@ if(INCLUDE__NRF5SDK)
         include_directories(${_tmp_source_dir}/components/nfc/t4t_parser/tlv)
 
         include_directories(${_tmp_source_dir}/components/softdevice/common)
-    
+
         if(NOT ${UBINOS__BSP__NRF52_SOFTDEVICE_INCLUDE_DIR} STREQUAL "")
             include_directories(${UBINOS__BSP__NRF52_SOFTDEVICE_INCLUDE_DIR})
             include_directories(${UBINOS__BSP__NRF52_SOFTDEVICE_INCLUDE_DIR}/nrf52)
         endif()
-    
+
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/bsp/bsp_btn_ble.c)
 
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/fstorage/nrf_fstorage_sd.c)
 
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/ble_advertising/ble_advertising.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/ble_db_discovery/ble_db_discovery.c)
-        
+
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/ble_services/ble_lbs/ble_lbs.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/ble_services/ble_lbs_c/ble_lbs_c.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/ble_services/ble_bas/ble_bas.c)
@@ -631,12 +631,12 @@ if(INCLUDE__NRF5SDK)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/ble_services/ble_dis/ble_dis.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/ble_services/ble_bas_c/ble_bas_c.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/ble_services/ble_hrs_c/ble_hrs_c.c)
-        
+
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/common/ble_advdata.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/common/ble_conn_params.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/common/ble_conn_state.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/common/ble_srv_common.c)
-        
+
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/nrf_ble_gatt/nrf_ble_gatt.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/nrf_ble_gq/nrf_ble_gq.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/nrf_ble_qwr/nrf_ble_qwr.c)
@@ -650,7 +650,7 @@ if(INCLUDE__NRF5SDK)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/peer_manager/gatt_cache_manager.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/peer_manager/gatts_cache_manager.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/peer_manager/id_manager.c)
-        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/peer_manager/nrf_ble_lesc.c)  
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/peer_manager/nrf_ble_lesc.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/peer_manager/peer_data_storage.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/peer_manager/peer_database.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/peer_manager/peer_id.c)
@@ -661,7 +661,7 @@ if(INCLUDE__NRF5SDK)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/peer_manager/security_manager.c)
 
         if(NRF5SDK__IOT_ENABLED)
-        
+
             include_directories(${_tmp_source_dir}/components/ble/ble_services/ble_ipsp)
             include_directories(${_tmp_source_dir}/components/iot/errno)
             include_directories(${_tmp_source_dir}/components/iot/ble_6lowpan)
@@ -671,7 +671,7 @@ if(INCLUDE__NRF5SDK)
             include_directories(${_tmp_source_dir}/components/iot/medium)
             include_directories(${_tmp_source_dir}/components/iot/medium/ble_ncfgs)
             include_directories(${_tmp_source_dir}/components/iot/medium/commissioning)
-  
+
             set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/ble_services/ble_ipsp/ble_ipsp.c)
             set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/iot/errno/errno.c)
             set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/iot/ble_6lowpan/ble_6lowpan.c)
@@ -684,7 +684,7 @@ if(INCLUDE__NRF5SDK)
             if(NRF5SDK__IOT_TIMER_ENABLED)
 
                 include_directories(${_tmp_source_dir}/components/iot/iot_timer)
-                
+
                 set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/iot/iot_timer/iot_timer.c)
 
             endif()
@@ -697,7 +697,7 @@ if(INCLUDE__NRF5SDK)
                 include_directories(${_tmp_source_dir}/components/iot/socket/libraries/fifo)
                 include_directories(${_tmp_source_dir}/components/iot/socket/libraries/mbuf)
                 include_directories(${_tmp_source_dir}/components/iot/socket/libraries/portdb)
-    
+
                 set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/iot/socket/common/sleep.c)
                 set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/iot/socket/common/socket.c)
                 set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/iot/socket/config/medium/config_medium.c)
@@ -710,14 +710,14 @@ if(INCLUDE__NRF5SDK)
             endif()
 
             if(NRF5SDK__LWIP_ENABLED)
-            
+
                 include_directories(${_tmp_source_dir}/external/lwip/src/port)
                 include_directories(${_tmp_source_dir}/external/lwip/src/port/arch)
                 include_directories(${_tmp_source_dir}/external/lwip/src/include)
                 include_directories(${_tmp_source_dir}/external/lwip/src/include/netif)
                 include_directories(${_tmp_source_dir}/external/lwip/src/include/lwip)
-    
-            
+
+
                 set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/lwip/src/core/def.c)
                 set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/lwip/src/core/dhcp.c)
                 set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/external/lwip/src/core/ipv6/dhcp6.c)
@@ -749,15 +749,15 @@ if(INCLUDE__NRF5SDK)
                 if(NRF5SDK__IOT_SOCKET_ENABLED)
                     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/iot/socket/transport/lwip/transport_handler.c)
                 endif()
-    
+
             else()
-    
+
                 include_directories(${_tmp_source_dir}/components/iot/ipv6_stack/pbuffer)
                 include_directories(${_tmp_source_dir}/components/iot/ipv6_stack/udp)
                 include_directories(${_tmp_source_dir}/components/iot/ipv6_stack/utils)
                 include_directories(${_tmp_source_dir}/components/iot/ipv6_stack/icmp6)
                 include_directories(${_tmp_source_dir}/components/iot/ipv6_stack/include)
-    
+
                 set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/iot/ipv6_stack/icmp6/icmp6.c)
                 set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/iot/ipv6_stack/ipv6/ipv6.c)
                 set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/iot/ipv6_stack/pbuffer/iot_pbuffer.c)
@@ -767,9 +767,9 @@ if(INCLUDE__NRF5SDK)
                 if(NRF5SDK__IOT_SOCKET_ENABLED)
                     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/iot/socket/transport/ipv6/transport_handler.c)
                 endif()
-                
+
             endif(NRF5SDK__LWIP_ENABLED)
-        
+
         endif(NRF5SDK__IOT_ENABLED)
 
         if(NRF5SDK__FREERTOS)
@@ -792,16 +792,13 @@ if(INCLUDE__NRF5SDK)
         if(UBINOS__BSP__NRF52_MBR_PRESENT AND (NOT ${UBINOS__BSP__NRF52_SOFTDEVICE_INCLUDE_DIR} STREQUAL ""))
             include_directories(${UBINOS__BSP__NRF52_SOFTDEVICE_INCLUDE_DIR})
         endif()
-    
+
         include_directories(${_tmp_source_dir}/components/drivers_nrf/nrf_soc_nosd)
-    
+
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/drivers_nrf/nrf_soc_nosd/nrf_nvic.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/drivers_nrf/nrf_soc_nosd/nrf_soc.c)
 
     endif(UBINOS__BSP__NRF52_SOFTDEVICE_PRESENT)
-
-    set(PROJECT_SOURCES ${PROJECT_SOURCES} ${CMAKE_CURRENT_LIST_DIR}/ubinos/bsp/arch/arm/cortexm/nrf52dk/dtty_nrf_libuarte.c)
-    set(PROJECT_SOURCES ${PROJECT_SOURCES} ${CMAKE_CURRENT_LIST_DIR}/ubinos/bsp/arch/arm/cortexm/nrf52dk/dtty_nrf_uart.c)
 
 endif(INCLUDE__NRF5SDK)
 
