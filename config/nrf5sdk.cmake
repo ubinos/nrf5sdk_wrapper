@@ -1,16 +1,16 @@
 #
 # Copyright (c) 2019 Sung Ho Park and CSOS
-# 
+#
 # SPDX-License-Identifier: Apache-2.0
 #
 
 set(INCLUDE__NRF5SDK TRUE)
 
-set_cache_default(NRF5SDK__BASE_DIR "${PROJECT_LIBRARY_DIR}/nrf5sdk_v17.00.00_lite" STRING "nrf5sdk project base dir")
+set_cache_default(NRF5SDK__BASE_DIR "${PROJECT_LIBRARY_DIR}/nrf5sdk_v17.00.00" STRING "nrf5sdk project base dir")
 
 if(UBINOS__BSP__BOARD_MODEL STREQUAL "NRF52DK")
     set_cache(NRF5SDK__BOARD_NAME "PCA10040" STRING)
-elseif(UBINOS__BSP__BOARD_MODEL STREQUAL "NRF52840DK")
+elseif((UBINOS__BSP__BOARD_MODEL STREQUAL "NRF52840DK") OR (UBINOS__BSP__BOARD_MODEL STREQUAL "ARDUINONANO33BLE"))
     set_cache(NRF5SDK__BOARD_NAME "PCA10056" STRING)
 elseif(UBINOS__BSP__BOARD_MODEL STREQUAL "NRF52840DONGLE")
     set_cache(NRF5SDK__BOARD_NAME "PCA10059" STRING)
@@ -104,7 +104,7 @@ if(UBINOS__BSP__USE_DTTY)
 
     add_definitions("-DNRF_LOG_BACKEND_DTTY_ENABLED=1")
     add_definitions("-DNRF_LOG_BACKEND_DTTY_TEMP_BUFFER_SIZE=64")
-    
+
     if(NRF5SDK__CLI_ENABLED)
         add_definitions("-DNRF_CLI_DTTY_ENABLED=1")
         add_definitions("-DNRF_CLI_CMD_BUFF_SIZE=384")
@@ -121,7 +121,7 @@ if(UBINOS__BSP__USE_DTTY)
 else()
 
     add_definitions("-DNRF_LOG_BACKEND_DTTY_ENABLED=0")
-    
+
     add_definitions("-DNRF_CLI_DTTY_ENABLED=0")
 
 endif(UBINOS__BSP__USE_DTTY)
@@ -142,7 +142,7 @@ endif(NRF5SDK__SYSTICK_ENABLED)
 
 if(NRF5SDK__UART_ENABLED)
     add_definitions("-DUART_ENABLED=1")
-    
+
     if(NRF5SDK__NRFX_UARTE0_ENABLED)
         add_definitions("-DNRFX_UARTE0_ENABLED=1")
     else()
@@ -159,7 +159,7 @@ if(NRF5SDK__UART_ENABLED)
     else()
         add_definitions("-DNRF_LOG_BACKEND_UART_ENABLED=0")
     endif(NRF5SDK__NRF_LOG_BACKEND_UART_ENABLED)
-    
+
     if(NRF5SDK__CLI_ENABLED)
         add_definitions("-DNRF_CLI_UART_ENABLED=1")
         add_definitions("-DNRF_CLI_CMD_BUFF_SIZE=384")
@@ -174,9 +174,9 @@ else()
 
     add_definitions("-DNRFX_UARTE0_ENABLED=0")
     add_definitions("-DNRFX_UARTE1_ENABLED=0")
-    
+
     add_definitions("-DNRF_LOG_BACKEND_UART_ENABLED=0")
-    
+
     add_definitions("-DNRF_CLI_UART_ENABLED=0")
 endif(NRF5SDK__UART_ENABLED)
 
@@ -186,7 +186,7 @@ if(NRF5SDK__RTT_ENABLED)
     else()
         add_definitions("-DNRF_LOG_BACKEND_RTT_ENABLED=0")
     endif(NRF5SDK__NRF_LOG_BACKEND_RTT_ENABLED)
-    
+
     if(NRF5SDK__CLI_ENABLED)
         add_definitions("-DNRF_CLI_RTT_ENABLED=1")
         add_definitions("-DNRF_CLI_CMD_BUFF_SIZE=384")
@@ -198,7 +198,7 @@ if(NRF5SDK__RTT_ENABLED)
 
 else()
     add_definitions("-DNRF_LOG_BACKEND_RTT_ENABLED=0")
-    
+
     add_definitions("-DNRF_CLI_RTT_ENABLED=0")
 endif(NRF5SDK__RTT_ENABLED)
 
@@ -267,16 +267,16 @@ if(NRF5SDK__CRYPTO_ENABLED)
 
 		set_cache_default(NRF5SDK__MBEDTLS_CONFIG_DIR "${NRF5SDK__BASE_DIR}/external/nrf_tls/mbedtls/tls/config" STRING "")
 		set_cache_default(NRF5SDK__MBEDTLS_CONFIG_FILE "\\\"nrf_tls_config.h\\\"" STRING "")
-		
+
 		set_cache_default(NRF5SDK__NRF_TLS_MAX_INSTANCE_COUNT 1 STRING "")
 
         add_definitions("-DNRF_TLS_MAX_INSTANCE_COUNT=${NRF5SDK__NRF_TLS_MAX_INSTANCE_COUNT}")
 
     else()
-    
+
 		set_cache_default(NRF5SDK__MBEDTLS_CONFIG_DIR "${NRF5SDK__BASE_DIR}/external/nrf_tls/mbedtls/nrf_crypto/config" STRING "")
 		set_cache_default(NRF5SDK__MBEDTLS_CONFIG_FILE "\\\"nrf_crypto_mbedtls_config.h\\\"" STRING "")
-		
+
 		set_cache_default(NRF5SDK__NRF_CRYPTO_MAX_INSTANCE_COUNT 1 STRING "")
 
         if(NRF5SDK__ENABLE_BOOTLOADER)
@@ -290,18 +290,18 @@ if(NRF5SDK__CRYPTO_ENABLED)
 		set_cache_default(NRF5SDK__LIB_FILE_OBERON "${NRF5SDK__BASE_DIR}/external/nrf_oberon/lib/cortex-m4/hard-float/liboberon_3.0.5.a" STRING "")
 
         add_definitions("-DNRF_CRYPTO_MAX_INSTANCE_COUNT=${NRF5SDK__NRF_CRYPTO_MAX_INSTANCE_COUNT}")
-    
+
         set(PROJECT_LIBRARIES ${PROJECT_LIBRARIES} ${NRF5SDK__LIB_FILE_CC310})
         set(PROJECT_LIBRARIES ${PROJECT_LIBRARIES} ${NRF5SDK__LIB_FILE_OBERON})
 
         set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -u cc310_backend")
         set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -u cc310_bl_backend")
-        
+
     endif(NRF5SDK__CRYPTO_MBEDTLS_ENABLED)
 
     add_definitions("-DNRF_CRYPTO_ENABLED=1")
     add_definitions("-DMBEDTLS_CONFIG_FILE=${NRF5SDK__MBEDTLS_CONFIG_FILE}")
-    
+
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -u nrf_hw_backend")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -u optiga_backend")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -u mbedtls_backend")
