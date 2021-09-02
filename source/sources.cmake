@@ -631,6 +631,8 @@ if(INCLUDE__NRF5SDK)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/ble_services/ble_dis/ble_dis.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/ble_services/ble_bas_c/ble_bas_c.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/ble_services/ble_hrs_c/ble_hrs_c.c)
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/ble_services/ble_nus/ble_nus.c)
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/ble_services/ble_nus_c/ble_nus_c.c)
 
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/common/ble_advdata.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/ble/common/ble_conn_params.c)
