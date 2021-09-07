@@ -588,25 +588,6 @@ static void task1func(void *arg);
 int appmain(int argc, char *argv[]) {
     int r;
 
-    __enable_irq();
-    ARM_INTERRUPT_ENABLE();
-
-    // Initialize.
-    // uart_init();
-    log_init();
-    timers_init();
-    // buttons_leds_init(&erase_bonds);
-    power_management_init();
-    ble_stack_init();
-    gap_params_init();
-    gatt_init();
-    services_init();
-    advertising_init();
-    conn_params_init();
-
-    ARM_INTERRUPT_DISABLE();
-    __disable_irq();
-
     srand(time(NULL));
 
     r = task_create(NULL, taskfunc, NULL, task_getmiddlepriority(), 0, "task0");
@@ -621,6 +602,19 @@ int appmain(int argc, char *argv[]) {
 
 static void taskfunc(void *arg) {
     int r;
+
+    // Initialize.
+    // uart_init();
+    log_init();
+    timers_init();
+    // buttons_leds_init(&erase_bonds);
+    power_management_init();
+    ble_stack_init();
+    gap_params_init();
+    gatt_init();
+    services_init();
+    advertising_init();
+    conn_params_init();
 
     // Start execution.
     printf("\nStarted.\n");
