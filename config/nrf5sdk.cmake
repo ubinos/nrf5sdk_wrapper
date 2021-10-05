@@ -6,7 +6,7 @@
 
 set(INCLUDE__NRF5SDK TRUE)
 
-set_cache_default(NRF5SDK__BASE_DIR "${PROJECT_LIBRARY_DIR}/nrf5sdk_v17.00.00" STRING "nrf5sdk project base dir")
+set_cache_default(NRF5SDK__BASE_DIR "${PROJECT_LIBRARY_DIR}/nrf5sdk_v17.00.00_lite" STRING "nrf5sdk project base dir")
 
 if(UBINOS__BSP__BOARD_MODEL STREQUAL "NRF52DK")
     set_cache(NRF5SDK__BOARD_NAME "PCA10040" STRING)
