@@ -573,12 +573,21 @@ static void taskfunc(void *arg);
 static void task1func(void *arg);
 static void task2func(void *arg);
 
-
 int appmain(int argc, char *argv[]) {
 	int r;
 
-	__enable_irq();
-	ARM_INTERRUPT_ENABLE();
+    srand(time(NULL));
+
+	r = task_create(NULL, taskfunc, NULL, task_getmiddlepriority(), 0, "task0");
+    ubi_assert(r == 0);
+
+	ubik_comp_start();
+
+	return 0;
+}
+
+static void taskfunc(void *arg) {
+	int r;
 
     // Initialize.
     log_init();
@@ -592,41 +601,18 @@ int appmain(int argc, char *argv[]) {
     ble_conn_state_init();
     scan_init();
 
-	ARM_INTERRUPT_DISABLE();
-    __disable_irq();
-
-    srand(time(NULL));
-
-	r = task_create(NULL, taskfunc, NULL, task_getmiddlepriority(), 0, "task0");
-	if (0 != r) {
-		logme("fail at task_create");
-	}
-
-	ubik_comp_start();
-
-	return 0;
-}
-
-static void taskfunc(void *arg) {
-	int r;
-
     // Start execution.
     NRF_LOG_INFO("MyMultilink2 example started.");
     scan_start();
 
-
 	r = task_create(NULL, task1func, NULL, task_getmiddlepriority(), 0, "task1");
-	if (0 != r) {
-		logme("fail at task_create");
-	}
+    ubi_assert(r == 0);
 
 	r = task_create(NULL, task2func, NULL, task_getmiddlepriority(), 0, "task2");
-	if (0 != r) {
-		logme("fail at task_create");
-	}
+    ubi_assert(r == 0);
 
 	r = ubik_setidletaskhookfunc(&idletaskhookfunc, 0, "idle_state_handle", IDLEHOOKFUNC_OPT__REPEAT);
-	assert(r == 0);
+    ubi_assert(r == 0);
 }
 
 static void task1func(void *arg) {

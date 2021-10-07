@@ -80,17 +80,17 @@
 #include "nrf_log_default_backends.h"
 
 #if (NRF_CLI_DTTY_ENABLED == 1)
-	#define CLI_OVER_DTTY 1
-	#define CLI_OVER_UART 0
-	#define CLI_OVER_RTT  0
+    #define CLI_OVER_DTTY 1
+    #define CLI_OVER_UART 0
+    #define CLI_OVER_RTT  0
 #elif (NRF_CLI_UART_ENABLED == 1)
-	#define CLI_OVER_DTTY 0
-	#define CLI_OVER_UART 1
-	#define CLI_OVER_RTT  0
+    #define CLI_OVER_DTTY 0
+    #define CLI_OVER_UART 1
+    #define CLI_OVER_RTT  0
 #else
-	#define CLI_OVER_DTTY 0
-	#define CLI_OVER_UART 0
-	#define CLI_OVER_RTT  1
+    #define CLI_OVER_DTTY 0
+    #define CLI_OVER_UART 0
+    #define CLI_OVER_RTT  1
 #endif
 
 #if CLI_OVER_UART
@@ -1081,7 +1081,7 @@ void test_begin(void)
 
 static void test_run(void)
 {
-	m_test_start_tick = ubik_gettickcount();
+    m_test_start_tick = ubik_gettickcount();
     nrf_ble_amts_notif_spam(&m_amts);
 }
 
@@ -1111,23 +1111,23 @@ void cli_process(void)
 
 
 int idletaskhookfunc(void * arg) {
-	for (;;) {
-	    cli_process();
+    for (;;) {
+        cli_process();
 
-	    if (is_test_ready())
-	    {
-	        NRF_LOG_INFO("Test started");
-	        m_run_test = true;
-	        test_run();
-	    }
+        if (is_test_ready())
+        {
+            NRF_LOG_INFO("Test started");
+            m_run_test = true;
+            test_run();
+        }
 
-	    if (NRF_LOG_PROCESS() == false)
-	    {
-	    	break;
-	    }
-	}
+        if (NRF_LOG_PROCESS() == false)
+        {
+            break;
+        }
+    }
 
-	return 0;
+    return 0;
 }
 
 
@@ -1193,6 +1193,7 @@ void cli_init(void)
 #endif
 
 #if CLI_OVER_DTTY
+    dtty_setecho(0);
     err_code = nrf_cli_init(&m_cli_dtty, NULL, true, true, NRF_LOG_SEVERITY_INFO);
     APP_ERROR_CHECK(err_code);
 #endif
@@ -1220,12 +1221,21 @@ static void taskfunc(void *arg);
 static void task1func(void *arg);
 static void task2func(void *arg);
 
-
 int appmain(int argc, char *argv[]) {
-	int r;
+    int r;
 
-	__enable_irq();
-	ARM_INTERRUPT_ENABLE();
+    srand(time(NULL));
+
+    r = task_create(NULL, taskfunc, NULL, task_getmiddlepriority(), 0, "task0");
+    ubi_assert(r == 0);
+
+    ubik_comp_start();
+
+    return 0;
+}
+
+static void taskfunc(void *arg) {
+    int r;
 
     // Initialize.
     log_init();
@@ -1238,24 +1248,6 @@ int appmain(int argc, char *argv[]) {
     gatt_init();
     advertising_data_set();
     scan_init();
-
-	ARM_INTERRUPT_DISABLE();
-    __disable_irq();
-
-    srand(time(NULL));
-
-	r = task_create(NULL, taskfunc, NULL, task_getmiddlepriority(), 0, "task0");
-	if (0 != r) {
-		logme("fail at task_create");
-	}
-
-	ubik_comp_start();
-
-	return 0;
-}
-
-static void taskfunc(void *arg) {
-	int r;
 
     server_init();
     client_init();
@@ -1271,42 +1263,38 @@ static void taskfunc(void *arg) {
     NRF_LOG_INFO("Press button 3 on the board connected to the PC.");
     NRF_LOG_INFO("Press button 4 on other board.");
 
-	r = task_create(NULL, task1func, NULL, task_getmiddlepriority(), 0, "task1");
-	if (0 != r) {
-		logme("fail at task_create");
-	}
+    r = task_create(NULL, task1func, NULL, task_getmiddlepriority(), 0, "task1");
+    ubi_assert(r == 0);
 
-	r = task_create(NULL, task2func, NULL, task_getmiddlepriority(), 0, "task2");
-	if (0 != r) {
-		logme("fail at task_create");
-	}
+    r = task_create(NULL, task2func, NULL, task_getmiddlepriority(), 0, "task2");
+    ubi_assert(r == 0);
 
-	r = ubik_setidletaskhookfunc(&idletaskhookfunc, 0, "idle_state_handle", IDLEHOOKFUNC_OPT__REPEAT);
-	assert(r == 0);
+    r = ubik_setidletaskhookfunc(&idletaskhookfunc, 0, "idle_state_handle", IDLEHOOKFUNC_OPT__REPEAT);
+    ubi_assert(r == 0);
 }
 
 static void task1func(void *arg) {
-	unsigned int delayms;
+    unsigned int delayms;
 
-	task_sleepms(1000);
+    task_sleepms(1000);
 
-	for (unsigned int i = 0;; i++) {
-		delayms = (rand() % 10 + 1) * 500;
-		printf("1: hello world ! (%u) (delay = %4d ms)\n", i, delayms);
-		task_sleepms(delayms);
-	}
+    for (unsigned int i = 0;; i++) {
+        delayms = (rand() % 10 + 1) * 5000;
+        printf("1: hello world ! (%u) (delay = %4d ms)\n", i, delayms);
+        task_sleepms(delayms);
+    }
 }
 
 static void task2func(void *arg) {
-	unsigned int delayms;
+    unsigned int delayms;
 
-	task_sleepms(1000);
+    task_sleepms(1000);
 
-	for (unsigned int i = 0;; i++) {
-		delayms = (rand() % 10 + 1) * 500;
-		printf("2: hello world ! (%u) (delay = %4d ms)\n", i, delayms);
-		task_sleepms(delayms);
-	}
+    for (unsigned int i = 0;; i++) {
+        delayms = (rand() % 10 + 1) * 5000;
+        printf("2: hello world ! (%u) (delay = %4d ms)\n", i, delayms);
+        task_sleepms(delayms);
+    }
 }
 
 #endif /* (INCLUDE__APP__myble_app_att_mtu_throughput == 1) */
