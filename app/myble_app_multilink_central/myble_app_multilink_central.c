@@ -44,8 +44,6 @@
 #include <ubinos.h>
 #include <ubinos/bsp/arch.h>
 
-#if (INCLUDE__APP__myble_app_multilink_central == 1)
-
 #include <time.h>
 
 #include <stdint.h>
@@ -638,7 +636,4 @@ static void task2func(void *arg) {
 		task_sleepms(delayms);
 	}
 }
-
-
-#endif /* (INCLUDE__APP__myble_app_multilink_central == 1) */
 

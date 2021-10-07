@@ -55,8 +55,6 @@
 #include <ubinos.h>
 #include <ubinos/bsp/arch.h>
 
-#if (INCLUDE__APP__myble_app_uart == 1)
-
 #include <time.h>
 #include <assert.h>
 
@@ -582,26 +580,33 @@ int idletaskhookfunc(void * arg) {
     return 0;
 }
 
-static void taskfunc(void *arg);
-static void task1func(void *arg);
+static void root_func(void *arg);
+static void task1_func(void *arg);
 
 int appmain(int argc, char *argv[]) {
     int r;
 
+    dtty_init();
+    dtty_setecho(1);
+
     srand(time(NULL));
 
-    r = task_create(NULL, taskfunc, NULL, task_getmiddlepriority(), 0, "task0");
-    if (0 != r) {
-        logme("fail at task_create");
-    }
+    r = task_create(NULL, root_func, NULL, task_getmiddlepriority(), 0, "root");
+    ubi_assert(r == 0);
 
     ubik_comp_start();
 
     return 0;
 }
 
-static void taskfunc(void *arg) {
+static void root_func(void *arg) {
     int r;
+
+	printf("\n\n\n");
+	printf("================================================================================\n");
+	printf("myble_app_uart (build time: %s %s)\n", __TIME__, __DATE__);
+	printf("================================================================================\n");
+	printf("\n");
 
     // Initialize.
     // uart_init();
@@ -620,16 +625,14 @@ static void taskfunc(void *arg) {
     printf("\nStarted.\n");
     advertising_start();
 
-    r = task_create(NULL, task1func, NULL, task_getmiddlepriority(), 0, "task1");
-    if (0 != r) {
-        logme("fail at task_create");
-    }
+    r = task_create(NULL, task1_func, NULL, task_getmiddlepriority(), 0, "task1");
+    ubi_assert(r == 0);
 
     r = ubik_setidletaskhookfunc(&idletaskhookfunc, 0, "idle_state_handle", IDLEHOOKFUNC_OPT__REPEAT);
-    assert(r == 0);
+    ubi_assert(r == 0);
 }
 
-static void task1func(void *arg) {
+static void task1_func(void *arg) {
     uint32_t err_code;
 
     // Enter main loop.
@@ -669,8 +672,3 @@ static void task1func(void *arg) {
     }
 }
 
-#endif /* (INCLUDE__APP__myble_app_uart == 1) */
-
-/**
- * @}
- */

@@ -43,8 +43,6 @@
 
 #include <ubinos.h>
 
-#if (INCLUDE__APP__mycli == 1)
-
 #include <time.h>
 #include <stdio.h>
 #include <stdbool.h>
@@ -121,9 +119,6 @@
 #if CLI_OVER_RTT
 #include "nrf_cli_rtt.h"
 #endif
-
-static void task1func(void *arg);
-static void task2func(void *arg);
 
 /* If enabled then CYCCNT (high resolution) timestamp is used for the logger. */
 #define USE_CYCCNT_TIMESTAMP_FOR_LOG 0
@@ -384,12 +379,35 @@ uint32_t cyccnt_get(void)
 }
 
 
-static void taskfunc(void *arg);
+static void root_func(void *arg);
+static void task1_func(void *arg);
+static void task2_func(void *arg);
 
 int appmain(int argc, char *argv[]) {
 	int r;
 
+    dtty_init();
+    dtty_setecho(0);
+
+	srand(time(NULL));
+
+	r = task_create(NULL, root_func, NULL, task_getmiddlepriority(), 0, "root");
+    ubi_assert(r == 0);
+
+	ubik_comp_start();
+
+	return 0;
+}
+
+static void root_func(void *arg) {
+	int r;
     ret_code_t ret;
+
+	printf("\n\n\n");
+	printf("================================================================================\n");
+	printf("mycli (build time: %s %s)\n", __TIME__, __DATE__);
+	printf("================================================================================\n");
+	printf("\n");
 
     if (USE_CYCCNT_TIMESTAMP_FOR_LOG)
     {
@@ -426,21 +444,6 @@ int appmain(int argc, char *argv[]) {
     ret = fds_init();
     APP_ERROR_CHECK(ret);
 
-	srand(time(NULL));
-
-	r = task_create(NULL, taskfunc, NULL, task_getmiddlepriority(), 0, "task0");
-	if (0 != r) {
-		logme("fail at task_create");
-	}
-
-	ubik_comp_start();
-
-	return 0;
-}
-
-static void taskfunc(void *arg) {
-	int r;
-
     UNUSED_RETURN_VALUE(nrf_log_config_load());
 
     cli_start();
@@ -452,15 +455,11 @@ static void taskfunc(void *arg) {
     NRF_LOG_RAW_INFO("My Command Line Interface 2 example started.\n");
     NRF_LOG_RAW_INFO("Please press the Tab key to see all available commands.\n");
 
-	r = task_create(NULL, task1func, NULL, task_getmiddlepriority(), 0, "task1");
-	if (0 != r) {
-		logme("fail at task_create");
-	}
+	r = task_create(NULL, task1_func, NULL, task_getmiddlepriority(), 0, "task1");
+    ubi_assert(r == 0);
 
-	r = task_create(NULL, task2func, NULL, task_getmiddlepriority(), 0, "task2");
-	if (0 != r) {
-		logme("fail at task_create");
-	}
+	r = task_create(NULL, task2_func, NULL, task_getmiddlepriority(), 0, "task2");
+    ubi_assert(r == 0);
 
     while (true)
     {
@@ -476,33 +475,27 @@ static void taskfunc(void *arg) {
 
 }
 
-static void task1func(void *arg) {
+static void task1_func(void *arg) {
 	unsigned int delayms;
 
 	task_sleepms(1000);
 
 	for (unsigned int i = 0;; i++) {
-		delayms = (rand() % 10 + 1) * 500;
+		delayms = (rand() % 10 + 1) * 5000;
 		printf("1: hello world ! (%u) (delay = %4d ms)\n", i, delayms);
 		task_sleepms(delayms);
 	}
 }
 
-static void task2func(void *arg) {
+static void task2_func(void *arg) {
 	unsigned int delayms;
 
 	task_sleepms(1000);
 
 	for (unsigned int i = 0;; i++) {
-		delayms = (rand() % 10 + 1) * 500;
+		delayms = (rand() % 10 + 1) * 5000;
 		printf("2: hello world ! (%u) (delay = %4d ms)\n", i, delayms);
 		task_sleepms(delayms);
 	}
 }
-
-/** @} */
-
-#endif /* (INCLUDE__APP__mycli == 1) */
-
-
 

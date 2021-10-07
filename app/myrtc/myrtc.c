@@ -43,8 +43,6 @@
 
 #include <ubinos.h>
 
-#if (INCLUDE__APP__myrtc == 1)
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -58,19 +56,37 @@
 #include <boards.h>
 #include <app_error.h>
 
-static void myrtc_isr(void);
-static void helloworld_mt_task1func(void *arg);
-static void helloworld_mt_task2func(void *arg);
-
 #define RTC NRF_RTC0
 #define RTC_IRQ_NO RTC0_IRQn
 
+static void myrtc_isr(void) {
+	nrf_gpio_pin_toggle(BSP_LED_0);
+	nrf_rtc_event_clear(RTC, NRF_RTC_EVENT_TICK);
+}
+
+
+static void root_func(void *arg);
+static void task1_func(void *arg);
+static void task2_func(void *arg);
+
+
 int appmain(int argc, char *argv[]) {
 	int r;
-#if (UBINOS__UBIK__TICK_TYPE == UBINOS__UBIK__TICK_TYPE__RTC)
-#else
+
+	srand(time(NULL));
+
+	r = task_create(NULL, root_func, NULL, task_getmiddlepriority(), 0, "root");
+    ubi_assert(r == 0);
+
+	ubik_comp_start();
+
+	return 0;
+}
+
+static void root_func(void *arg) {
+	int r;
 	ret_code_t err_code;
-#endif
+	(void) err_code;
 
 	//
 	printf("\n\n\n");
@@ -108,29 +124,14 @@ int appmain(int argc, char *argv[]) {
 	intr_connectisr(RTC_IRQ_NO, myrtc_isr, intr_getlowestpriority(), 0);
 	intr_enable(RTC_IRQ_NO);
 
-	srand(time(NULL));
+	r = task_create(NULL, task1_func, NULL, task_getmiddlepriority(), 0, "task1");
+    ubi_assert(r == 0);
 
-	r = task_create(NULL, helloworld_mt_task1func, NULL, task_getmiddlepriority(), 0, "task1");
-	if (0 != r) {
-		logme("fail at task_create");
-	}
-
-	r = task_create(NULL, helloworld_mt_task2func, NULL, task_getmiddlepriority(), 0, "task2");
-	if (0 != r) {
-		logme("fail at task_create");
-	}
-
-	ubik_comp_start();
-
-	return 0;
+	r = task_create(NULL, task2_func, NULL, task_getmiddlepriority(), 0, "task2");
+    ubi_assert(r == 0);
 }
 
-static void myrtc_isr(void) {
-	nrf_gpio_pin_toggle(BSP_LED_0);
-	nrf_rtc_event_clear(RTC, NRF_RTC_EVENT_TICK);
-}
-
-static void helloworld_mt_task1func(void *arg) {
+static void task1_func(void *arg) {
 	unsigned int delayms;
 
 	task_sleepms(1000);
@@ -142,7 +143,7 @@ static void helloworld_mt_task1func(void *arg) {
 	}
 }
 
-static void helloworld_mt_task2func(void *arg) {
+static void task2_func(void *arg) {
 	unsigned int delayms;
 
 	task_sleepms(1000);
@@ -153,6 +154,4 @@ static void helloworld_mt_task2func(void *arg) {
 		task_sleepms(delayms);
 	}
 }
-
-#endif /* (INCLUDE__APP__myrtc == 1) */
 

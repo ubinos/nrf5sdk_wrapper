@@ -44,8 +44,6 @@
 #include <ubinos.h>
 #include <ubinos/bsp/arch.h>
 
-#if (INCLUDE__APP__myble_app_att_mtu_throughput == 1)
-
 #include <time.h>
 
 #include <stdbool.h>
@@ -1296,6 +1294,4 @@ static void task2func(void *arg) {
         task_sleepms(delayms);
     }
 }
-
-#endif /* (INCLUDE__APP__myble_app_att_mtu_throughput == 1) */
 

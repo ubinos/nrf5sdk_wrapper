@@ -6,8 +6,6 @@
 
 #include <ubinos.h>
 
-#if (INCLUDE__APP__uart1_tester == 1)
-
 #include <ubinos/bsp/arch.h>
 
 #include <stdio.h>
@@ -253,6 +251,4 @@ static void uart1_io_event_handler(nrf_drv_uart_event_t *p_event, void *p_contex
         break;
     }
 }
-
-#endif /* (INCLUDE__APP__uart1_tester == 1) */
 

@@ -55,8 +55,6 @@
 #include <ubinos.h>
 #include <ubinos/bsp/arch.h>
 
-#if (INCLUDE__APP__myble_app_hids_mouse == 1)
-
 #include <time.h>
 #include <assert.h>
 
@@ -1393,8 +1391,3 @@ static void task2func(void *arg) {
     }
 }
 
-#endif /* (INCLUDE__APP__myble_app_hids_mouse == 1) */
-
-/**
- * @}
- */
