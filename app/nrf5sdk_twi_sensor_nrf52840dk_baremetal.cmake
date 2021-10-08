@@ -19,9 +19,6 @@ include(${PROJECT_LIBRARY_DIR}/nrf5sdk_wrapper/config/nrf5sdk.cmake)
 include(${PROJECT_LIBRARY_DIR}/nrf5sdk_extension/config/nrf5sdk_extension.cmake)
 
 get_filename_component(_tmp_source_dir "${NRF5SDK__BASE_DIR}/examples/peripheral/twi_sensor/" ABSOLUTE)
-
-
-include(${CMAKE_CURRENT_LIST_DIR}/twi_sensor.cmake)
 string(TOLOWER ${NRF5SDK__BOARD_NAME} _temp_board_name)
 set(_temp_softdevice_name "blank")
 
