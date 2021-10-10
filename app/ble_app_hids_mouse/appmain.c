@@ -1323,6 +1323,7 @@ bool m_erase_bonds;
 
 int appmain(int argc, char *argv[]) {
     int r;
+    (void) r;
 
     srand(time(NULL));
 
@@ -1336,6 +1337,7 @@ int appmain(int argc, char *argv[]) {
 
 static void taskfunc(void *arg) {
     int r;
+    (void) r;
 
     // Initialize.
     log_init();

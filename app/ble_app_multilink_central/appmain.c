@@ -527,14 +527,14 @@ static void db_discovery_init(void)
 
 
 int idletaskhookfunc(void * arg) {
-	for (;;) {
-	    if (NRF_LOG_PROCESS() == false)
-	    {
-	    	break;
-	    }
-	}
+    for (;;) {
+        if (NRF_LOG_PROCESS() == false)
+        {
+            break;
+        }
+    }
 
-	return 0;
+    return 0;
 }
 
 
@@ -572,20 +572,22 @@ static void task1func(void *arg);
 static void task2func(void *arg);
 
 int appmain(int argc, char *argv[]) {
-	int r;
+    int r;
+    (void) r;
 
     srand(time(NULL));
 
-	r = task_create(NULL, taskfunc, NULL, task_getmiddlepriority(), 0, "task0");
+    r = task_create(NULL, taskfunc, NULL, task_getmiddlepriority(), 0, "task0");
     ubi_assert(r == 0);
 
-	ubik_comp_start();
+    ubik_comp_start();
 
-	return 0;
+    return 0;
 }
 
 static void taskfunc(void *arg) {
-	int r;
+    int r;
+    (void) r;
 
     // Initialize.
     log_init();
@@ -603,37 +605,37 @@ static void taskfunc(void *arg) {
     NRF_LOG_INFO("MyMultilink2 example started.");
     scan_start();
 
-	r = task_create(NULL, task1func, NULL, task_getmiddlepriority(), 0, "task1");
+    r = task_create(NULL, task1func, NULL, task_getmiddlepriority(), 0, "task1");
     ubi_assert(r == 0);
 
-	r = task_create(NULL, task2func, NULL, task_getmiddlepriority(), 0, "task2");
+    r = task_create(NULL, task2func, NULL, task_getmiddlepriority(), 0, "task2");
     ubi_assert(r == 0);
 
-	r = ubik_setidletaskhookfunc(&idletaskhookfunc, 0, "idle_state_handle", IDLEHOOKFUNC_OPT__REPEAT);
+    r = ubik_setidletaskhookfunc(&idletaskhookfunc, 0, "idle_state_handle", IDLEHOOKFUNC_OPT__REPEAT);
     ubi_assert(r == 0);
 }
 
 static void task1func(void *arg) {
-	unsigned int delayms;
+    unsigned int delayms;
 
-	task_sleepms(1000);
+    task_sleepms(1000);
 
-	for (unsigned int i = 0;; i++) {
-		delayms = (rand() % 10 + 1) * 200;
-		printf("1: hello world ! (%u) (delay = %4d ms)\n", i, delayms);
-		task_sleepms(delayms);
-	}
+    for (unsigned int i = 0;; i++) {
+        delayms = (rand() % 10 + 1) * 200;
+        printf("1: hello world ! (%u) (delay = %4d ms)\n", i, delayms);
+        task_sleepms(delayms);
+    }
 }
 
 static void task2func(void *arg) {
-	unsigned int delayms;
+    unsigned int delayms;
 
-	task_sleepms(1000);
+    task_sleepms(1000);
 
-	for (unsigned int i = 0;; i++) {
-		delayms = (rand() % 10 + 1) * 200;
-		printf("2: hello world ! (%u) (delay = %4d ms)\n", i, delayms);
-		task_sleepms(delayms);
-	}
+    for (unsigned int i = 0;; i++) {
+        delayms = (rand() % 10 + 1) * 200;
+        printf("2: hello world ! (%u) (delay = %4d ms)\n", i, delayms);
+        task_sleepms(delayms);
+    }
 }
 

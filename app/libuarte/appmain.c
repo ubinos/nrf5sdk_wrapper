@@ -126,6 +126,7 @@ static void task2_func(void *arg);
 
 int appmain(int argc, char *argv[]) {
     int r;
+    (void) r;
 
     srand(time(NULL));
 
@@ -138,14 +139,15 @@ int appmain(int argc, char *argv[]) {
 }
 
 static void root_func(void *arg) {
-	int r;
+    int r;
+    (void) r;
     ret_code_t ret;
 
-	printf("\n\n\n");
-	printf("================================================================================\n");
-	printf("libuarte (build time: %s %s)\n", __TIME__, __DATE__);
-	printf("================================================================================\n");
-	printf("\n");
+    printf("\n\n\n");
+    printf("================================================================================\n");
+    printf("libuarte (build time: %s %s)\n", __TIME__, __DATE__);
+    printf("================================================================================\n");
+    printf("\n");
 
     bsp_board_init(BSP_INIT_LEDS);
 
@@ -182,26 +184,26 @@ static void root_func(void *arg) {
 }
 
 static void task1_func(void *arg) {
-	unsigned int delayms;
+    unsigned int delayms;
 
-	task_sleepms(1000);
+    task_sleepms(1000);
 
-	for (unsigned int i = 0;; i++) {
-		delayms = (rand() % 10 + 1) * 200;
-		printf("1: hello world ! (%u) (delay = %4d ms)\n", i, delayms);
-		task_sleepms(delayms);
-	}
+    for (unsigned int i = 0;; i++) {
+        delayms = (rand() % 10 + 1) * 200;
+        printf("1: hello world ! (%u) (delay = %4d ms)\n", i, delayms);
+        task_sleepms(delayms);
+    }
 }
 
 static void task2_func(void *arg) {
-	unsigned int delayms;
+    unsigned int delayms;
 
-	task_sleepms(1000);
+    task_sleepms(1000);
 
-	for (unsigned int i = 0;; i++) {
-		delayms = (rand() % 10 + 1) * 200;
-		printf("2: hello world ! (%u) (delay = %4d ms)\n", i, delayms);
-		task_sleepms(delayms);
-	}
+    for (unsigned int i = 0;; i++) {
+        delayms = (rand() % 10 + 1) * 200;
+        printf("2: hello world ! (%u) (delay = %4d ms)\n", i, delayms);
+        task_sleepms(delayms);
+    }
 }
 

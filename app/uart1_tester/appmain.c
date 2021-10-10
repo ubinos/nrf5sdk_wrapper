@@ -41,6 +41,7 @@ static sem_pt _g_recv_sem;
 int appmain(int argc, char *argv[])
 {
     int r;
+    (void) r;
 
     r = task_create(NULL, root_func, NULL, task_getmiddlepriority(), 0, "root");
     ubi_assert(r == 0);
@@ -53,7 +54,9 @@ int appmain(int argc, char *argv[])
 static void root_func(void *arg)
 {
     int r;
+    (void) r;
     ubi_err_t ubi_err;
+    (void) ubi_err;
 
     printf("\n\n\n");
     printf("================================================================================\n");

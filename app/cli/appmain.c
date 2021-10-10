@@ -94,17 +94,17 @@
 
 #if (CLI_OVER_USB_CDC_ACM == 0)
 #if (NRF_CLI_DTTY_ENABLED == 1)
-	#define CLI_OVER_DTTY 1
-	#define CLI_OVER_UART 0
-	#define CLI_OVER_RTT  0
+    #define CLI_OVER_DTTY 1
+    #define CLI_OVER_UART 0
+    #define CLI_OVER_RTT  0
 #elif (NRF_CLI_UART_ENABLED == 1)
-	#define CLI_OVER_DTTY 0
-	#define CLI_OVER_UART 1
-	#define CLI_OVER_RTT  0
+    #define CLI_OVER_DTTY 0
+    #define CLI_OVER_UART 1
+    #define CLI_OVER_RTT  0
 #else
-	#define CLI_OVER_DTTY 0
-	#define CLI_OVER_UART 0
-	#define CLI_OVER_RTT  1
+    #define CLI_OVER_DTTY 0
+    #define CLI_OVER_UART 0
+    #define CLI_OVER_RTT  1
 #endif
 #endif
 
@@ -384,30 +384,32 @@ static void task1_func(void *arg);
 static void task2_func(void *arg);
 
 int appmain(int argc, char *argv[]) {
-	int r;
+    int r;
+    (void) r;
 
     dtty_init();
     dtty_setecho(0);
 
-	srand(time(NULL));
+    srand(time(NULL));
 
-	r = task_create(NULL, root_func, NULL, task_getmiddlepriority(), 0, "root");
+    r = task_create(NULL, root_func, NULL, task_getmiddlepriority(), 0, "root");
     ubi_assert(r == 0);
 
-	ubik_comp_start();
+    ubik_comp_start();
 
-	return 0;
+    return 0;
 }
 
 static void root_func(void *arg) {
-	int r;
+    int r;
+    (void) r;
     ret_code_t ret;
 
-	printf("\n\n\n");
-	printf("================================================================================\n");
-	printf("cli (build time: %s %s)\n", __TIME__, __DATE__);
-	printf("================================================================================\n");
-	printf("\n");
+    printf("\n\n\n");
+    printf("================================================================================\n");
+    printf("cli (build time: %s %s)\n", __TIME__, __DATE__);
+    printf("================================================================================\n");
+    printf("\n");
 
     if (USE_CYCCNT_TIMESTAMP_FOR_LOG)
     {
@@ -455,10 +457,10 @@ static void root_func(void *arg) {
     NRF_LOG_RAW_INFO("My Command Line Interface 2 example started.\n");
     NRF_LOG_RAW_INFO("Please press the Tab key to see all available commands.\n");
 
-	r = task_create(NULL, task1_func, NULL, task_getmiddlepriority(), 0, "task1");
+    r = task_create(NULL, task1_func, NULL, task_getmiddlepriority(), 0, "task1");
     ubi_assert(r == 0);
 
-	r = task_create(NULL, task2_func, NULL, task_getmiddlepriority(), 0, "task2");
+    r = task_create(NULL, task2_func, NULL, task_getmiddlepriority(), 0, "task2");
     ubi_assert(r == 0);
 
     while (true)
@@ -476,26 +478,26 @@ static void root_func(void *arg) {
 }
 
 static void task1_func(void *arg) {
-	unsigned int delayms;
+    unsigned int delayms;
 
-	task_sleepms(1000);
+    task_sleepms(1000);
 
-	for (unsigned int i = 0;; i++) {
-		delayms = (rand() % 10 + 1) * 5000;
-		printf("1: hello world ! (%u) (delay = %4d ms)\n", i, delayms);
-		task_sleepms(delayms);
-	}
+    for (unsigned int i = 0;; i++) {
+        delayms = (rand() % 10 + 1) * 5000;
+        printf("1: hello world ! (%u) (delay = %4d ms)\n", i, delayms);
+        task_sleepms(delayms);
+    }
 }
 
 static void task2_func(void *arg) {
-	unsigned int delayms;
+    unsigned int delayms;
 
-	task_sleepms(1000);
+    task_sleepms(1000);
 
-	for (unsigned int i = 0;; i++) {
-		delayms = (rand() % 10 + 1) * 5000;
-		printf("2: hello world ! (%u) (delay = %4d ms)\n", i, delayms);
-		task_sleepms(delayms);
-	}
+    for (unsigned int i = 0;; i++) {
+        delayms = (rand() % 10 + 1) * 5000;
+        printf("2: hello world ! (%u) (delay = %4d ms)\n", i, delayms);
+        task_sleepms(delayms);
+    }
 }
 

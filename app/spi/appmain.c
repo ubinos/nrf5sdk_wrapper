@@ -72,13 +72,13 @@ static sem_pt spi_xfer_done_sem = NULL;
  * @param event
  */
 void spi_event_handler(nrf_drv_spi_evt_t const *p_event, void *p_context) {
-	NRF_LOG_INFO("Transfer completed.");
-	if (m_rx_buf[0] != 0) {
-		NRF_LOG_INFO(" Received:");
-		NRF_LOG_HEXDUMP_INFO(m_rx_buf, strlen((const char* )m_rx_buf));
-	}
+    NRF_LOG_INFO("Transfer completed.");
+    if (m_rx_buf[0] != 0) {
+        NRF_LOG_INFO(" Received:");
+        NRF_LOG_HEXDUMP_INFO(m_rx_buf, strlen((const char* )m_rx_buf));
+    }
 
-	sem_give(spi_xfer_done_sem);
+    sem_give(spi_xfer_done_sem);
 }
 
 static void root_func(void *arg);
@@ -87,94 +87,96 @@ static void task1_func(void *arg);
 static void task2_func(void *arg);
 
 int appmain(int argc, char *argv[]) {
-	int r;
+    int r;
+    (void) r;
 
     dtty_init();
     dtty_setecho(0);
 
-	srand(time(NULL));
+    srand(time(NULL));
 
-	r = task_create(NULL, root_func, NULL, task_getmiddlepriority(), 0, "root");
+    r = task_create(NULL, root_func, NULL, task_getmiddlepriority(), 0, "root");
     ubi_assert(r == 0);
 
-	ubik_comp_start();
+    ubik_comp_start();
 
-	return 0;
+    return 0;
 }
 
 static void root_func(void *arg) {
-	int r;
+    int r;
+    (void) r;
 
-	printf("\n\n\n");
-	printf("================================================================================\n");
-	printf("spi (build time: %s %s)\n", __TIME__, __DATE__);
-	printf("================================================================================\n");
-	printf("\n");
+    printf("\n\n\n");
+    printf("================================================================================\n");
+    printf("spi (build time: %s %s)\n", __TIME__, __DATE__);
+    printf("================================================================================\n");
+    printf("\n");
 
-	bsp_board_init(BSP_INIT_LEDS);
+    bsp_board_init(BSP_INIT_LEDS);
 
-	APP_ERROR_CHECK(NRF_LOG_INIT(NULL));
-	NRF_LOG_DEFAULT_BACKENDS_INIT();
+    APP_ERROR_CHECK(NRF_LOG_INIT(NULL));
+    NRF_LOG_DEFAULT_BACKENDS_INIT();
 
-	nrf_drv_spi_config_t spi_config = NRF_DRV_SPI_DEFAULT_CONFIG;
-	spi_config.ss_pin = SPI_SS_PIN;
-	spi_config.miso_pin = SPI_MISO_PIN;
-	spi_config.mosi_pin = SPI_MOSI_PIN;
-	spi_config.sck_pin = SPI_SCK_PIN;
-	APP_ERROR_CHECK(nrf_drv_spi_init(&spi, &spi_config, spi_event_handler, NULL));
+    nrf_drv_spi_config_t spi_config = NRF_DRV_SPI_DEFAULT_CONFIG;
+    spi_config.ss_pin = SPI_SS_PIN;
+    spi_config.miso_pin = SPI_MISO_PIN;
+    spi_config.mosi_pin = SPI_MOSI_PIN;
+    spi_config.sck_pin = SPI_SCK_PIN;
+    APP_ERROR_CHECK(nrf_drv_spi_init(&spi, &spi_config, spi_event_handler, NULL));
 
-	r = sem_create(&spi_xfer_done_sem);
+    r = sem_create(&spi_xfer_done_sem);
     ubi_assert(r == 0);
 
-	r = task_create(NULL, spi_xfer_func, NULL, task_getmiddlepriority(), 0, "spi_xfer");
+    r = task_create(NULL, spi_xfer_func, NULL, task_getmiddlepriority(), 0, "spi_xfer");
     ubi_assert(r == 0);
 
-	r = task_create(NULL, task1_func, NULL, task_getmiddlepriority(), 0, "task1");
+    r = task_create(NULL, task1_func, NULL, task_getmiddlepriority(), 0, "task1");
     ubi_assert(r == 0);
 
-	r = task_create(NULL, task2_func, NULL, task_getmiddlepriority(), 0, "task2");
+    r = task_create(NULL, task2_func, NULL, task_getmiddlepriority(), 0, "task2");
     ubi_assert(r == 0);
 }
 
 static void spi_xfer_func(void *arg) {
-	task_sleepms(1000);
+    task_sleepms(1000);
 
-	while (1) {
-		// Reset rx buffer and transfer done flag
-		memset(m_rx_buf, 0, m_length);
+    while (1) {
+        // Reset rx buffer and transfer done flag
+        memset(m_rx_buf, 0, m_length);
 
-		APP_ERROR_CHECK(nrf_drv_spi_transfer(&spi, m_tx_buf, m_length, m_rx_buf, m_length));
+        APP_ERROR_CHECK(nrf_drv_spi_transfer(&spi, m_tx_buf, m_length, m_rx_buf, m_length));
 
-		sem_take(spi_xfer_done_sem);
+        sem_take(spi_xfer_done_sem);
 
-		NRF_LOG_FLUSH();
+        NRF_LOG_FLUSH();
 
-		bsp_board_led_invert(BSP_BOARD_LED_0);
-		task_sleepms(200);
-	}
+        bsp_board_led_invert(BSP_BOARD_LED_0);
+        task_sleepms(200);
+    }
 }
 
 static void task1_func(void *arg) {
-	unsigned int delayms;
+    unsigned int delayms;
 
-	task_sleepms(1000);
+    task_sleepms(1000);
 
-	for (unsigned int i = 0;; i++) {
-		delayms = (rand() % 10 + 1) * 200;
-		printf("1: hello world ! (%u) (delay = %4d ms)\n", i, delayms);
-		task_sleepms(delayms);
-	}
+    for (unsigned int i = 0;; i++) {
+        delayms = (rand() % 10 + 1) * 200;
+        printf("1: hello world ! (%u) (delay = %4d ms)\n", i, delayms);
+        task_sleepms(delayms);
+    }
 }
 
 static void task2_func(void *arg) {
-	unsigned int delayms;
+    unsigned int delayms;
 
-	task_sleepms(1000);
+    task_sleepms(1000);
 
-	for (unsigned int i = 0;; i++) {
-		delayms = (rand() % 10 + 1) * 200;
-		printf("2: hello world ! (%u) (delay = %4d ms)\n", i, delayms);
-		task_sleepms(delayms);
-	}
+    for (unsigned int i = 0;; i++) {
+        delayms = (rand() % 10 + 1) * 200;
+        printf("2: hello world ! (%u) (delay = %4d ms)\n", i, delayms);
+        task_sleepms(delayms);
+    }
 }
 

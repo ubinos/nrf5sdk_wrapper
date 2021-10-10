@@ -1221,6 +1221,7 @@ static void task2func(void *arg);
 
 int appmain(int argc, char *argv[]) {
     int r;
+    (void) r;
 
     srand(time(NULL));
 
@@ -1234,12 +1235,13 @@ int appmain(int argc, char *argv[]) {
 
 static void taskfunc(void *arg) {
     int r;
+    (void) r;
 
-	printf("\n\n\n");
-	printf("================================================================================\n");
-	printf("ble_app_att_mtu_throughput (build time: %s %s)\n", __TIME__, __DATE__);
-	printf("================================================================================\n");
-	printf("\n");
+    printf("\n\n\n");
+    printf("================================================================================\n");
+    printf("ble_app_att_mtu_throughput (build time: %s %s)\n", __TIME__, __DATE__);
+    printf("================================================================================\n");
+    printf("\n");
 
     // Initialize.
     log_init();

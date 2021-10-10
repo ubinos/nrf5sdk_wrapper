@@ -585,6 +585,7 @@ static void task1_func(void *arg);
 
 int appmain(int argc, char *argv[]) {
     int r;
+    (void) r;
 
     dtty_init();
     dtty_setecho(1);
@@ -601,12 +602,13 @@ int appmain(int argc, char *argv[]) {
 
 static void root_func(void *arg) {
     int r;
+    (void) r;
 
-	printf("\n\n\n");
-	printf("================================================================================\n");
-	printf("ble_app_uart (build time: %s %s)\n", __TIME__, __DATE__);
-	printf("================================================================================\n");
-	printf("\n");
+    printf("\n\n\n");
+    printf("================================================================================\n");
+    printf("ble_app_uart (build time: %s %s)\n", __TIME__, __DATE__);
+    printf("================================================================================\n");
+    printf("\n");
 
     // Initialize.
     // uart_init();
