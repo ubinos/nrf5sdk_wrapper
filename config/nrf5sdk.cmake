@@ -5,6 +5,7 @@
 #
 
 set(INCLUDE__NRF5SDK TRUE)
+set(PROJECT_UBINOS_LIBRARIES ${PROJECT_UBINOS_LIBRARIES} nrf5sdk_wrapper)
 
 set_cache_default(NRF5SDK__BASE_DIR "${PROJECT_LIBRARY_DIR}/nrf5sdk_v17.00.00_lite" STRING "nrf5sdk project base dir")
 
