@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-# {ubinos_config_type: [buildable, cmake, app]}
+# ubinos_config_info {"name_base": "helloworld_mt", "build_type": "cmake_ubinos", "app": true}
 
 set(INCLUDE__APP TRUE)
 set(APP__NAME "helloworld_mt")
@@ -22,7 +22,6 @@ set_cache(SEGGERRTT__DTTY_ENABLE TRUE BOOL)
 include(${PROJECT_UBINOS_DIR}/config/ubinos_nrf52840dongle.cmake)
 include(${PROJECT_LIBRARY_DIR}/seggerrtt_wrapper/config/seggerrtt.cmake)
 include(${PROJECT_LIBRARY_DIR}/nrf5sdk_wrapper/config/nrf5sdk.cmake)
-include(${PROJECT_UBINOS_DIR}/app/helloworld_mt.cmake)
 
 get_filename_component(_tmp_source_dir "${CMAKE_CURRENT_LIST_DIR}/${APP__NAME}" ABSOLUTE)
 string(TOLOWER ${UBINOS__BSP__BOARD_MODEL} _temp_board_model)
@@ -30,10 +29,6 @@ set(_temp_softdevice_name "blank")
 
 include_directories(${_tmp_source_dir}/arch/arm/cortexm/${_temp_board_model}/${_temp_softdevice_name}/config)
 include_directories(${_tmp_source_dir}/arch/arm/cortexm/${_temp_board_model})
-include_directories(${_tmp_source_dir})
-
-get_filename_component(_tmp_source_dir "${PROJECT_UBINOS_DIR}/app/${APP__NAME}" ABSOLUTE)
-
 include_directories(${_tmp_source_dir})
 
 file(GLOB_RECURSE _tmp_sources

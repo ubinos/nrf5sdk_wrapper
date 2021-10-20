@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-# {ubinos_config_type: [buildable, cmake, app]}
+# ubinos_config_info {"name_base": "nrf5sdk_pin_change_int", "build_type": "cmake_ubinos", "app": true}
 
 set(INCLUDE__APP TRUE)
 set(APP__NAME "nrf5sdk_pin_change_int")

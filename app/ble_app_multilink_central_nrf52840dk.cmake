@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-# {ubinos_config_type: [buildable, cmake, app]}
+# ubinos_config_info {"name_base": "ble_app_multilink_central", "build_type": "cmake_ubinos", "app": true}
 
 set(INCLUDE__APP TRUE)
 set(APP__NAME "ble_app_multilink_central")

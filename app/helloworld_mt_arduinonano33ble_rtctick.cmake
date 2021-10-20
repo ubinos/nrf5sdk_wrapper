@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-# {ubinos_config_type: [buildable, cmake, app]}
+# ubinos_config_info {"name_base": "helloworld_mt", "build_type": "cmake_ubinos", "app": true}
 
 set(INCLUDE__APP TRUE)
 set(APP__NAME "helloworld_mt")
@@ -33,10 +33,6 @@ set(_temp_softdevice_name "blank")
 
 include_directories(${_tmp_source_dir}/arch/arm/cortexm/${_temp_board_model}/${_temp_softdevice_name}/config)
 include_directories(${_tmp_source_dir}/arch/arm/cortexm/${_temp_board_model})
-include_directories(${_tmp_source_dir})
-
-get_filename_component(_tmp_source_dir "${PROJECT_UBINOS_DIR}/app/${APP__NAME}" ABSOLUTE)
-
 include_directories(${_tmp_source_dir})
 
 file(GLOB_RECURSE _tmp_sources
