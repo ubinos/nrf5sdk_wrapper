@@ -6,22 +6,22 @@
 
 # ubinos_config_info {"name_base": "ble_app_multilink_central", "build_type": "cmake_ubinos", "app": true}
 
-set(INCLUDE__APP TRUE)
-set(APP__NAME "ble_app_multilink_central")
-
 set_cache(UBINOS__BSP__LINK_MEMMAP_RAM_ORIGIN 0x20004400 STRING)
 set_cache(UBINOS__BSP__LINK_MEMMAP_RAM_LENGTH 0x0003BC00 STRING)
 
 set_cache(NRF5SDK__SWI_DISABLE0 TRUE BOOL)
-
 # set_cache(UBINOS__BSP__DTTY_TYPE "EXTERNAL" STRING)
 # set_cache(SEGGERRTT__DTTY_ENABLE TRUE BOOL)
 
 include(${PROJECT_UBINOS_DIR}/config/ubinos_nrf52840dk_softdevice.cmake)
 include(${PROJECT_LIBRARY_DIR}/nrf5sdk_wrapper/config/nrf5sdk.cmake)
 include(${PROJECT_LIBRARY_DIR}/nrf5sdk_extension/config/nrf5sdk_extension.cmake)
-
 # include(${PROJECT_LIBRARY_DIR}/seggerrtt_wrapper/config/seggerrtt.cmake)
+
+####
+
+set(INCLUDE__APP TRUE)
+set(APP__NAME "ble_app_multilink_central")
 
 get_filename_component(_tmp_source_dir "${CMAKE_CURRENT_LIST_DIR}/${APP__NAME}" ABSOLUTE)
 string(TOLOWER ${UBINOS__BSP__BOARD_MODEL} _temp_board_model)

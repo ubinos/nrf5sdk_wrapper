@@ -6,9 +6,6 @@
 
 # ubinos_config_info {"name_base": "nrf5sdk_flashwrite", "build_type": "cmake_ubinos", "app": true}
 
-set(INCLUDE__APP TRUE)
-set(APP__NAME "nrf5sdk_flashwrite")
-
 set_cache(NRF5SDK__BSP_DEFINES_ONLY TRUE BOOL)
 set_cache(NRF5SDK__NRFX_POWER_ENABLED FALSE BOOL)
 
@@ -24,6 +21,11 @@ set_cache(NRF5SDK__APP_TIMER_V2_RTC1_ENABLED TRUE BOOL)
 include(${PROJECT_UBINOS_DIR}/config/ubinos_nrf52840dk_baremetal.cmake)
 include(${PROJECT_LIBRARY_DIR}/nrf5sdk_wrapper/config/nrf5sdk.cmake)
 include(${PROJECT_LIBRARY_DIR}/nrf5sdk_extension/config/nrf5sdk_extension.cmake)
+
+####
+
+set(INCLUDE__APP TRUE)
+set(APP__NAME "nrf5sdk_flashwrite")
 
 get_filename_component(_tmp_source_dir "${NRF5SDK__BASE_DIR}/examples/peripheral/flashwrite/" ABSOLUTE)
 string(TOLOWER ${NRF5SDK__BOARD_NAME} _temp_board_name)

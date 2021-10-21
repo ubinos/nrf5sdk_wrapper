@@ -6,15 +6,17 @@
 
 # ubinos_config_info {"name_base": "rtc", "build_type": "cmake_ubinos", "app": true}
 
-set(INCLUDE__APP TRUE)
-set(APP__NAME "rtc")
-
 set_cache(NRF5SDK__BSP_DEFINES_ONLY TRUE BOOL)
 set_cache(NRF5SDK__NRFX_POWER_ENABLED FALSE BOOL)
 
 include(${PROJECT_UBINOS_DIR}/config/ubinos_nrf52dk.cmake)
 include(${PROJECT_LIBRARY_DIR}/nrf5sdk_wrapper/config/nrf5sdk.cmake)
 include(${PROJECT_LIBRARY_DIR}/nrf5sdk_extension/config/nrf5sdk_extension.cmake)
+
+####
+
+set(INCLUDE__APP TRUE)
+set(APP__NAME "rtc")
 
 get_filename_component(_tmp_source_dir "${CMAKE_CURRENT_LIST_DIR}/${APP__NAME}" ABSOLUTE)
 string(TOLOWER ${UBINOS__BSP__BOARD_MODEL} _temp_board_model)

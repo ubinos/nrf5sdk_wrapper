@@ -6,9 +6,6 @@
 
 # ubinos_config_info {"name_base": "nrf5sdk_spi", "build_type": "cmake_ubinos", "app": true}
 
-set(INCLUDE__APP TRUE)
-set(APP__NAME "nrf5sdk_spis")
-
 set_cache(NRF5SDK__SPIS_ENABLED TRUE BOOL)
 set_cache(NRF5SDK__APP_TIMER_V2 TRUE BOOL)
 set_cache(NRF5SDK__APP_TIMER_V2_RTC1_ENABLED TRUE BOOL)
@@ -18,6 +15,11 @@ set_cache(NRF5SDK__NRFX_CLOCK_ENABLED FALSE BOOL)
 include(${PROJECT_UBINOS_DIR}/config/ubinos_nrf52840dk_baremetal.cmake)
 include(${PROJECT_LIBRARY_DIR}/nrf5sdk_wrapper/config/nrf5sdk.cmake)
 include(${PROJECT_LIBRARY_DIR}/nrf5sdk_extension/config/nrf5sdk_extension.cmake)
+
+####
+
+set(INCLUDE__APP TRUE)
+set(APP__NAME "nrf5sdk_spis")
 
 get_filename_component(_tmp_source_dir "${NRF5SDK__BASE_DIR}/examples/peripheral/spis/" ABSOLUTE)
 string(TOLOWER ${NRF5SDK__BOARD_NAME} _temp_board_name)

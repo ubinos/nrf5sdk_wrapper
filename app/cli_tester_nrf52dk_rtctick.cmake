@@ -6,9 +6,6 @@
 
 # ubinos_config_info {"name_base": "cli_tester", "build_type": "cmake_ubinos", "app": true}
 
-set(INCLUDE__APP TRUE)
-set(APP__NAME "cli_tester")
-
 set_cache(UBINOS__UBIK__TICK_TYPE "RTC" STRING)
 set_cache(UBINOS__UBIK__TICK_PER_SEC 1024 STRING)
 
@@ -22,9 +19,14 @@ set_cache(NRF5SDK__DTTY_NRF_UART_ENABLE TRUE BOOL)
 set_cache(NRF5SDK__UART_ENABLED TRUE BOOL)
 set_cache(NRF5SDK__NRFX_UARTE0_ENABLED TRUE BOOL)
 
-include(${PROJECT_UBINOS_DIR}/config/ubinos_nrf52dk_trace.cmake)
+include(${PROJECT_UBINOS_DIR}/config/ubinos_nrf52dk.cmake)
 include(${PROJECT_LIBRARY_DIR}/nrf5sdk_wrapper/config/nrf5sdk.cmake)
 include(${PROJECT_LIBRARY_DIR}/nrf5sdk_extension/config/nrf5sdk_extension.cmake)
+
+####
+
+set(INCLUDE__APP TRUE)
+set(APP__NAME "cli_tester")
 
 get_filename_component(_tmp_source_dir "${CMAKE_CURRENT_LIST_DIR}/${APP__NAME}" ABSOLUTE)
 string(TOLOWER ${UBINOS__BSP__BOARD_MODEL} _temp_board_model)

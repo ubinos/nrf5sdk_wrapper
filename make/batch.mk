@@ -242,25 +242,25 @@
 	@echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 	@echo ""
 	@echo ""
-	make -f makefile.mk $@ CONFIG_NAME=helloworld_mt_arduinonano33ble_rtctick
+	make -f makefile.mk $@ CONFIG_NAME=hello_world_arduinonano33ble_rtctick
 	@echo ""
 	@echo ""
 	@echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 	@echo ""
 	@echo ""
-	make -f makefile.mk $@ CONFIG_NAME=helloworld_mt_nrf52840dk_rtctick
+	make -f makefile.mk $@ CONFIG_NAME=hello_world_nrf52840dk_rtctick
 	@echo ""
 	@echo ""
 	@echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 	@echo ""
 	@echo ""
-	make -f makefile.mk $@ CONFIG_NAME=helloworld_mt_nrf52840dongle_rtctick
+	make -f makefile.mk $@ CONFIG_NAME=hello_world_nrf52840dongle_rtctick
 	@echo ""
 	@echo ""
 	@echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 	@echo ""
 	@echo ""
-	make -f makefile.mk $@ CONFIG_NAME=helloworld_mt_nrf52dk_rtctick
+	make -f makefile.mk $@ CONFIG_NAME=hello_world_nrf52dk_rtctick
 	@echo ""
 	@echo ""
 
