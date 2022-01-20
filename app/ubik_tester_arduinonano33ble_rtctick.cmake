@@ -16,7 +16,7 @@ set_cache(UBINOS__BSP__USE_DTTY TRUE BOOL)
 set_cache(UBINOS__BSP__DTTY_TYPE "EXTERNAL" STRING)
 set_cache(SEGGERRTT__DTTY_ENABLE TRUE BOOL)
 
-# set_cache(UBINOS__BSP__DEBUG_SERVER_SERIAL "59300655" STRING) # arduino nano
+# set_cache(UBINOS__BSP__DEBUG_SERVER_SERIAL "59300655" STRING) # seggerr j-link
 # set_cache(UBINOS__BSP__DEBUG_SERVER_PORT "2351" STRING)
 
 include(${PROJECT_UBINOS_DIR}/config/ubinos_arduinonano33ble.cmake)
