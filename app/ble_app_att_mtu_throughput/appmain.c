@@ -1299,6 +1299,7 @@ static void task2func(void *arg) {
     for (unsigned int i = 0;; i++) {
         delayms = (rand() % 10 + 1) * 5000;
         printf("2: hello world ! (%u) (delay = %4d ms)\n", i, delayms);
+
         task_sleepms(delayms);
     }
 }
