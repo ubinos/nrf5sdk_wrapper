@@ -79,6 +79,8 @@
 #include "nrf_pwr_mgmt.h"
 #include "app_scheduler.h"
 
+#define USE_ECHO_SERVER 1
+
 #if defined (UART_PRESENT)
 #include "nrf_uart.h"
 #endif
@@ -127,8 +129,20 @@ static ble_uuid_t m_adv_uuids[]          =                                      
     {BLE_UUID_NUS_SERVICE, NUS_SERVICE_UUID_TYPE}
 };
 
+#if (USE_ECHO_SERVER == 1)
+
+#define BLE_UART_READ_BUFFER_SIZE 1024
+#define BLE_UART_READ_TIMEOUT_MS 100
+
+static cbuf_pt _g_ble_uart_rbuf;
+static sem_pt _g_ble_uart_rsem;
+
+#else /* (USE_ECHO_SERVER == 1) */
+
 static char m_data_array[BLE_NUS_MAX_DATA_LEN];
 static int m_index = 0;
+
+#endif /* (USE_ECHO_SERVER == 1) */
 
 /**@brief Function for assert macro callback.
  *
@@ -213,6 +227,37 @@ static void nus_data_handler(ble_nus_evt_t * p_evt)
         NRF_LOG_DEBUG("Received data from BLE NUS. Writing data on UART.");
         NRF_LOG_HEXDUMP_DEBUG(p_evt->params.rx_data.p_data, p_evt->params.rx_data.length);
 
+#if (USE_ECHO_SERVER == 1)
+
+        ubi_err_t ubi_err;
+        uint16_t len, written_len;
+        int need_notify = 0;
+        
+        if (cbuf_get_len(_g_ble_uart_rbuf) == 0)
+        {
+            need_notify = 1;
+        }
+
+        written_len = 0;
+        while (written_len < p_evt->params.rx_data.length)
+        {
+            len = min(cbuf_get_contig_empty_len(_g_ble_uart_rbuf), p_evt->params.rx_data.length);
+            ubi_err = cbuf_write(_g_ble_uart_rbuf, &(p_evt->params.rx_data.p_data[written_len]), len, NULL);
+            if (ubi_err == UBI_ERR_BUF_FULL)
+            {
+                break;
+            }
+            ubi_assert_ok(ubi_err);
+            written_len += len;
+        }
+
+        if (need_notify)
+        {
+            sem_give(_g_ble_uart_rsem);
+        }
+
+#else /* (USE_ECHO_SERVER == 1) */
+
         for (uint32_t i = 0; i < p_evt->params.rx_data.length; i++)
         {
             dtty_putc(p_evt->params.rx_data.p_data[i]);
@@ -221,6 +266,8 @@ static void nus_data_handler(ble_nus_evt_t * p_evt)
         {
             dtty_putc('\n');
         }
+
+#endif /* (USE_ECHO_SERVER == 1) */
     }
 }
 /**@snippet [Handling the data received over BLE] */
@@ -610,6 +657,17 @@ static void root_func(void *arg) {
     printf("================================================================================\n");
     printf("\n");
 
+#if (USE_ECHO_SERVER == 1)
+
+    ubi_err_t ubi_err;
+
+    ubi_err = cbuf_create(&_g_ble_uart_rbuf, BLE_UART_READ_BUFFER_SIZE);
+    ubi_assert_ok(ubi_err);
+    r = sem_create(&_g_ble_uart_rsem);
+    ubi_assert(r == 0);
+
+#endif /* (USE_ECHO_SERVER == 1) */
+
     // Initialize.
     // uart_init();
     log_init();
@@ -642,6 +700,41 @@ static void task1_func(void *arg) {
     {
         NRF_LOG_PROCESS();
 
+#if (USE_ECHO_SERVER == 1)
+
+        uint16_t length;
+        uint8_t * data_array;
+
+        do
+        {
+            sem_take_timedms(_g_ble_uart_rsem, BLE_UART_READ_TIMEOUT_MS);
+
+            do
+            {
+                length = min(cbuf_get_contig_len(_g_ble_uart_rbuf), m_ble_nus_max_data_len);
+                if (length > 0)
+                {
+                    data_array = cbuf_get_head_addr(_g_ble_uart_rbuf);
+
+                    err_code = ble_nus_data_send(&m_nus, (uint8_t *) data_array, &length, m_conn_handle);
+                    if ((err_code != NRF_ERROR_INVALID_STATE) &&
+                        (err_code != NRF_ERROR_RESOURCES) &&
+                        (err_code != NRF_ERROR_NOT_FOUND))
+                    {
+                        APP_ERROR_CHECK(err_code);
+                    }
+
+                    cbuf_read(_g_ble_uart_rbuf, NULL, length, NULL);
+                }
+                else
+                {
+                    break;
+                }
+            } while (1);
+        } while (1);
+
+#else /* (USE_ECHO_SERVER == 1) */
+
         if(dtty_getc(&m_data_array[m_index]) == 0)
         {
             m_index++;
@@ -671,6 +764,9 @@ static void task1_func(void *arg) {
                 m_index = 0;
             }
         }
+
+#endif /* (USE_ECHO_SERVER == 1) */
+
     }
 }
 
