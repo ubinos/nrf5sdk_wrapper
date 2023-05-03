@@ -260,7 +260,7 @@
 	@echo ""
 	make -f makefile.mk $@ CONFIG_NAME=cli_tester_nrf52dk_rtctick_ble_uart_dtty
 	@echo ""
-	@echo ""	
+	@echo ""
 	@echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 	@echo ""
 	@echo ""
@@ -501,6 +501,12 @@
 	@echo ""
 	@echo ""
 	make -f makefile.mk $@ CONFIG_NAME=ubik_tester_nrf52840dk_rtctick_dmpm
+	@echo ""
+	@echo ""
+	@echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+	@echo ""
+	@echo ""
+	make -f makefile.mk $@ CONFIG_NAME=ubik_tester_nrf52840dk_rtctick_dmpm_dironoff_align16
 	@echo ""
 	@echo ""
 	@echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
