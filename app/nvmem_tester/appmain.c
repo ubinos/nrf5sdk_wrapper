@@ -24,9 +24,10 @@ extern char __flash2_size__; /* Set by linker.  */
 
 #define TEST_DATA_SIZE (1024 * 2 + 512)
 
-#define TEST_COUNT 3
+#define TEST_COUNT 10
 
-static uint8_t _test_data_buf[TEST_DATA_SIZE];
+static uint8_t _test_ref_buf[TEST_DATA_SIZE];
+static uint8_t _test_write_buf[TEST_DATA_SIZE];
 static uint8_t _test_read_buf[TEST_DATA_SIZE];
 
 static void root_func(void * arg);
@@ -46,7 +47,7 @@ int appmain(int argc, char * argv[])
 
 static void root_func(void * arg)
 {
-    uint32_t i, j;
+    uint32_t i, j, test_size;
     ubi_err_t uerr;
 
     printf("\n\n\n");
@@ -63,25 +64,29 @@ static void root_func(void * arg)
     {
         printf("nvmem test %ld : ", i);
 
-        for (j = 0; j < TEST_DATA_SIZE; j++)
+        test_size = TEST_DATA_SIZE - (i * 2);
+        memset(_test_write_buf, 0x5a, TEST_DATA_SIZE);
+        for (j = i; j < test_size; j++)
         {
             if (i % 2 == 0)
             {
-                _test_data_buf[j] = j % 0x100;
+                _test_ref_buf[j]   = j % 0x100;
+                _test_write_buf[j] = j % 0x100;
             }
             else
             {
-                _test_data_buf[j] = 0xff - (j % 0x100);
+                _test_ref_buf[j]   = 0xff - (j % 0x100);
+                _test_write_buf[j] = 0xff - (j % 0x100);
             }
         }
-        uerr = nvmem_update(FLASH_USER_START_ADDR, _test_data_buf, TEST_DATA_SIZE);
+        uerr = nvmem_update(FLASH_USER_START_ADDR + i, _test_write_buf + i, test_size);
         assert(uerr == UBI_ERR_OK);
 
         memset(_test_read_buf, 0, TEST_DATA_SIZE);
         uerr = nvmem_read(FLASH_USER_START_ADDR, _test_read_buf, TEST_DATA_SIZE);
         assert(uerr == UBI_ERR_OK);
 
-        if (strncmp((const char *) _test_read_buf, (const char *) _test_data_buf, TEST_DATA_SIZE) == 0)
+        if (strncmp((const char *) _test_read_buf, (const char *) _test_ref_buf, TEST_DATA_SIZE) == 0)
         {
             printf("success");
         }
