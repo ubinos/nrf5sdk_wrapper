@@ -60,6 +60,8 @@ static void root_func(void * arg)
     printf("FLASH_USER_END_ADDR   = 0x%08lx\n", (uint32_t) FLASH_USER_END_ADDR);
     printf("\n");
 
+    task_sleepms(100);
+
     for (i = 0; i < TEST_COUNT; i++)
     {
         printf("nvmem test %ld : ", i);
@@ -97,5 +99,7 @@ static void root_func(void * arg)
 
         printf("\n");
     }
+
+    printf("\nend.\n");
 }
 
