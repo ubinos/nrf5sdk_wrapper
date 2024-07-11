@@ -112,7 +112,6 @@ if(INCLUDE__NRF5SDK)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/fifo/app_fifo.c)
 
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/fstorage/nrf_fstorage.c)
-    set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/fstorage/nrf_fstorage_nvmc.c)
 
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/hardfault/hardfault_implementation.c)
     set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/hardfault/nrf52/handler/hardfault_handler_gcc.c)
@@ -799,6 +798,7 @@ if(INCLUDE__NRF5SDK)
 
         include_directories(${_tmp_source_dir}/components/drivers_nrf/nrf_soc_nosd)
 
+        set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/libraries/fstorage/nrf_fstorage_nvmc.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/drivers_nrf/nrf_soc_nosd/nrf_nvic.c)
         set(PROJECT_SOURCES ${PROJECT_SOURCES} ${_tmp_source_dir}/components/drivers_nrf/nrf_soc_nosd/nrf_soc.c)
 
