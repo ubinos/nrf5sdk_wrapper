@@ -41,6 +41,8 @@ typedef struct _app_config_t {
 
 #ifdef SOFTDEVICE_PRESENT
 #include "nrf_sdm.h"
+#include "app_error.h"
+#include "app_timer.h"
 #endif
 
 static void root_func(void * arg);
@@ -144,6 +146,11 @@ static void root_func(void * arg)
 
         printf("\n");
     }
+
+#ifdef SOFTDEVICE_PRESENT
+    task_sleepms(100);
+    bsp_resetsystem();
+#endif
 
     printf("\nend.\n");
 }
