@@ -6,8 +6,11 @@
 
 # ubinos_config_info {"name_base": "nvmem_app_config_example", "build_type": "cmake_ubinos", "app": true}
 
-set_cache(UBINOS__BSP__LINK_MEMMAP_FLASH_ORIGIN  0x00000000 STRING)
-set_cache(UBINOS__BSP__LINK_MEMMAP_FLASH_LENGTH  0x000E0000 STRING)
+set_cache(UBINOS__BSP__LINK_MEMMAP_RAM_ORIGIN 0x20004400 STRING)
+set_cache(UBINOS__BSP__LINK_MEMMAP_RAM_LENGTH 0x0003BC00 STRING)
+
+set_cache(UBINOS__BSP__LINK_MEMMAP_FLASH_ORIGIN  0x00027000 STRING)
+set_cache(UBINOS__BSP__LINK_MEMMAP_FLASH_LENGTH  0x000B9000 STRING)
 set_cache(UBINOS__BSP__LINK_MEMMAP_FLASH2_ORIGIN 0x000E0000 STRING)
 set_cache(UBINOS__BSP__LINK_MEMMAP_FLASH2_LENGTH 0x00020000 STRING)
 
@@ -16,11 +19,12 @@ set_cache(UBINOS__UBIDRV__INCLUDE_NVMEM TRUE BOOL)
 set_cache(UBINOS__UBIK__TICK_TYPE "RTC" STRING)
 set_cache(UBINOS__UBIK__TICK_PER_SEC 1024 STRING)
 
-set_cache(NRF5SDK__BSP_DEFINES_ONLY TRUE BOOL)
-set_cache(NRF5SDK__NRFX_POWER_ENABLED FALSE BOOL)
+set_cache(NRF5SDK__SWI_DISABLE0 TRUE BOOL)
+set_cache(NRF5SDK__BLE_STACK_SUPPORT_REQD TRUE BOOL)
+
 set_cache(NRF5SDK__NRFX_NVMC_ENABLED TRUE BOOL)
 
-include(${PROJECT_UBINOS_DIR}/config/ubinos_nrf52840dk.cmake)
+include(${PROJECT_UBINOS_DIR}/config/ubinos_nrf52840dk_softdevice.cmake)
 include(${PROJECT_LIBRARY_DIR}/nrf5sdk_wrapper/config/nrf5sdk.cmake)
 include(${PROJECT_LIBRARY_DIR}/nrf5sdk_extension/config/nrf5sdk_extension.cmake)
 include(${PROJECT_LIBRARY_DIR}/libcrc_wrapper/config/libcrc.cmake)
@@ -32,7 +36,7 @@ set(APP__NAME "nvmem_app_config_example")
 
 get_filename_component(_tmp_source_dir "${CMAKE_CURRENT_LIST_DIR}/${APP__NAME}" ABSOLUTE)
 string(TOLOWER ${UBINOS__BSP__BOARD_VARIATION_NAME} _temp_board_model)
-set(_temp_softdevice_name "blank")
+string(TOLOWER ${UBINOS__BSP__NRF52_SOFTDEVICE_NAME} _temp_softdevice_name)
 
 include_directories(${_tmp_source_dir}/arch/arm/cortexm/${_temp_board_model}/${_temp_softdevice_name}/config)
 include_directories(${_tmp_source_dir}/arch/arm/cortexm/${_temp_board_model})

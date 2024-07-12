@@ -39,6 +39,10 @@ typedef struct _app_config_t {
 
 #define TEST_COUNT 10
 
+#ifdef SOFTDEVICE_PRESENT
+#include "nrf_sdm.h"
+#endif
+
 static void root_func(void * arg);
 
 int appmain(int argc, char * argv[])
@@ -58,7 +62,8 @@ static void root_func(void * arg)
 {
     uint32_t i, j;
     ubi_err_t uerr;
-
+    uint32_t rv;
+    (void) rv;
 
     app_config_t app_config;
     app_config_t app_config_ref;
@@ -113,10 +118,18 @@ static void root_func(void * arg)
 
         memcpy(&app_config_ref, &app_config, sizeof(app_config_t));
 
+#ifdef SOFTDEVICE_PRESENT
+        rv = sd_softdevice_disable();
+        APP_ERROR_CHECK(rv);
+        rv = app_timer_stop_all();
+        APP_ERROR_CHECK(rv);
+#endif
+
         uerr = nvmem_update(FLASH_USER_START_ADDR, (uint8_t *) &app_config, sizeof(app_config_t));
         assert(uerr == UBI_ERR_OK);
 
         memset(&app_config, 0, sizeof(app_config_t));
+
         uerr = nvmem_read(FLASH_USER_START_ADDR, (uint8_t *) &app_config, sizeof(app_config_t));
         assert(uerr == UBI_ERR_OK);
 
