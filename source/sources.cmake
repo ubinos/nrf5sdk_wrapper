@@ -80,7 +80,6 @@ if(INCLUDE__NRF5SDK)
 
     include_directories(${_tmp_source_dir}/external/fnmatch)
     include_directories(${_tmp_source_dir}/external/fprintf)
-    include_directories(${_tmp_source_dir}/external/segger_rtt)
     include_directories(${_tmp_source_dir}/external/utf_converter)
 
     include_directories(${_tmp_source_dir}/integration/nrfx)
